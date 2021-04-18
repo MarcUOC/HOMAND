@@ -73,7 +73,6 @@ GameObject:
   - component: {fileID: 2275102924914308417}
   - component: {fileID: 2275102924914308418}
   - component: {fileID: 2275102924914308419}
-  - component: {fileID: 2275102924914308416}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -219,23 +218,12 @@ MonoBehaviour:
   knockbackLength: 0.25
   knockbackCount: 0
   knockFromRight: 0
---- !u!114 &2275102924914308416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2275102924914308422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b448ab96b0758bc41850958c9c3b6b02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fireRate: 0.3
+  timeBetweenArrow: 0.3
   firingPoint: {fileID: 2275102923506902680}
-  bulletPrefab: {fileID: 4501917264518558830, guid: e5bd3437cb35e9e4a8cdd87ea0a9f652,
+  arrowPrefab: {fileID: 4501917264518558830, guid: e5bd3437cb35e9e4a8cdd87ea0a9f652,
     type: 3}
   orbPrefab: {fileID: 8516937231360534635, guid: 58388d71904a49341915f108d40e2fca,
     type: 3}
-  begin: 0
-  timerForOrb: 5
+  orbIsOnCooldown: 0
+  timerForOrb: 0
+  cooldownForOrb: 6

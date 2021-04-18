@@ -1,16 +1,15 @@
 ﻿using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Arrow : MonoBehaviour
 {
     public float bulletSpeed = 15f;
     public Rigidbody2D rb;
 
     private void Update()
     {
-        //Assign velocity to bullet
+        //Assign velocity to arrow
         rb.velocity = transform.right * bulletSpeed;
         Destroy(gameObject, 2);
-        //transform.Translate(transform.right * transform.localScale.x * bulletSpeed * Time.deltaTime);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

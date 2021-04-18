@@ -69,19 +69,22 @@ public class Enemy : MonoBehaviour
             }
         }
 
+
         //collision player vs enemy
         /*if (other.gameObject.tag.Equals("Player"))
         {
             SceneManager.LoadScene("Game"); //Player die
         }*/
 
-        //collision orb vs enemy
 
+        //collision orb vs enemy
         if (other.gameObject.tag.Equals("Orb"))
         {
             frozenEnemy = true;            
         }
 
+
+        //collision enemy vs enemy or wall
         if (other.gameObject.tag.Equals("Enemy") || other.gameObject.tag.Equals("Wall")) 
         {
             if (!frozenEnemy)
@@ -98,8 +101,6 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
-
-        
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -116,47 +117,4 @@ public class Enemy : MonoBehaviour
             else { player.knockFromRight = false; }
         }
     }
-    /*void OnCollisionExit2D(Collision2D other)
-    {
-         
-             frozen = false;
-    
-    }
-
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag.Equals("Orb"))
-        {
-            timer += Time.deltaTime;
-        }
-        if (timer >= 25f)
-        {
-            frozen = false;
-        }
-        
-    }*/
-
-
-    //When orb exit from trigger...
-    /*private void OnTriggerExit2D(Collider2D collision)
-    {
-        congelado = false;
-    }
-    
-    //When orb stay in trigger...
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag.Equals("Orb"))
-        {
-            congelado = true;
-        }
-    }*/
-
-
-
-
-
-
-
-
 }
