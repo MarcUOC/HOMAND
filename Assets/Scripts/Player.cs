@@ -18,7 +18,10 @@ public class Player : MonoBehaviour
     public float checkRadius;
     public LayerMask whatIsGround;
 
-
+    public float knockback;
+    public float knockbackLength;
+    public float knockbackCount;
+    public bool knockFromRight;
 
 
 
@@ -35,7 +38,20 @@ public class Player : MonoBehaviour
 
         moveInput = Input.GetAxisRaw("Horizontal");
 
-        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+        if (knockbackCount <= 0)
+        {
+            rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+        }
+        else
+        {
+            if (knockFromRight)            
+                rb.velocity = new Vector2(-knockback, knockback);            
+            if (!knockFromRight)            
+                rb.velocity = new Vector2(knockback, knockback);            
+            knockbackCount -= Time.deltaTime;
+            doubleJump = true;
+        }
+        
 
         //Player movement
         if (moveInput > 0)

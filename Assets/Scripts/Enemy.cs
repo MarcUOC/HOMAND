@@ -8,9 +8,12 @@ public class Enemy : MonoBehaviour
     public float speed;
     private bool movingRight = true;
     public int hp;
-
+    public bool frozenEnemy;
+    public float frozenTime;
+    public float frozenMaxTime;
     public Rigidbody2D rb;
     public Transform groundDetection;
+
 
     private void Start()
     {
@@ -21,7 +24,10 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         //enemy movement
-        transform.Translate(Vector2.right * speed * Time.deltaTime);
+        if (!frozenEnemy)
+        { 
+            transform.Translate(Vector2.right * speed * Time.deltaTime);
+        }
 
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, 0.1f);
 
@@ -38,7 +44,18 @@ public class Enemy : MonoBehaviour
                 movingRight = true;
             }
         }
+
+        if (frozenEnemy == true)
+        {
+            frozenTime += Time.deltaTime;
+            if(frozenTime >= frozenMaxTime)
+            {
+                frozenEnemy = false;
+                frozenTime = 0;
+            }
+        }
     }
+    
 
     void OnCollisionEnter2D(Collision2D other)
     {
@@ -53,36 +70,88 @@ public class Enemy : MonoBehaviour
         }
 
         //collision player vs enemy
-        if (other.gameObject.tag.Equals("Player"))
+        /*if (other.gameObject.tag.Equals("Player"))
         {
             SceneManager.LoadScene("Game"); //Player die
+        }*/
+
+        //collision orb vs enemy
+
+        if (other.gameObject.tag.Equals("Orb"))
+        {
+            frozenEnemy = true;            
         }
 
-        /*if (other.gameObject.tag.Equals("Orb"))
+        if (other.gameObject.tag.Equals("Enemy") || other.gameObject.tag.Equals("Wall")) 
         {
-            speed = 0;
-        }*/
+            if (!frozenEnemy)
+            {
+                if (movingRight == true)
+                {
+                    transform.eulerAngles = new Vector3(0, -180, 0);
+                    movingRight = false;
+                }
+                else
+                {
+                    transform.eulerAngles = new Vector3(0, 0, 0);
+                    movingRight = true;
+                }
+            }
+        }
+
+        
     }
 
-    void OnCollisionExit2D(Collision2D other)
-     {
-         speed = 1;
-     }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.name == "Player")
+        {
+            var player = other.GetComponent<Player>();
+            player.knockbackCount = player.knockbackLength;
+
+            if (other.transform.position.x < transform.position.x)
+            {
+                player.knockFromRight = true;
+            }
+            else { player.knockFromRight = false; }
+        }
+    }
+    /*void OnCollisionExit2D(Collision2D other)
+    {
+         
+             frozen = false;
+    
+    }
+
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Orb"))
+        {
+            timer += Time.deltaTime;
+        }
+        if (timer >= 25f)
+        {
+            frozen = false;
+        }
+        
+    }*/
+
 
     //When orb exit from trigger...
-    private void OnTriggerExit2D(Collider2D collision)
+    /*private void OnTriggerExit2D(Collider2D collision)
     {
-        speed = 1;
+        congelado = false;
     }
-
+    
     //When orb stay in trigger...
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag.Equals("Orb"))
         {
-            speed = 0;
+            congelado = true;
         }
-    }
+    }*/
+
 
 
 

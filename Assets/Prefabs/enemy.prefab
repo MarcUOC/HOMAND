@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3217428038180612294}
   - component: {fileID: 3217428038180612297}
   - component: {fileID: 3217428038180612298}
+  - component: {fileID: 1344351722}
   m_Layer: 0
   m_Name: enemy
   m_TagString: Enemy
@@ -27,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3217428038180612293}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.98, y: -0.055, z: 1}
   m_LocalScale: {x: 0.8889529, y: 1.4533286, z: 0}
   m_Children:
@@ -98,7 +99,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0024452507, y: 0.0017114356}
+  m_Offset: {x: 0.0019667149, y: 0.002228275}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -109,7 +110,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.29163504, y: 0.30102217}
+  m_Size: {x: 0.27928144, y: 0.29998848}
   m_EdgeRadius: 0
 --- !u!50 &3217428038180612297
 Rigidbody2D:
@@ -146,8 +147,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   hp: 3
+  frozenEnemy: 0
+  frozenTime: 0
+  frozenMaxTime: 3
   rb: {fileID: 3217428038180612297}
   groundDetection: {fileID: 3217428038464511070}
+--- !u!61 &1344351722
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3217428038180612293}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0019667149, y: 0.002228275}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.32, y: 0.32}
+    newSize: {x: 0.32, y: 0.32}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.27928144, y: 0.29998848}
+  m_EdgeRadius: 0
 --- !u!1 &3217428038464511069
 GameObject:
   m_ObjectHideFlags: 0

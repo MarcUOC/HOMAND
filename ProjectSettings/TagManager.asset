@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Orb
   - Die
+  - Wall
   layers:
   - Default
   - TransparentFX

@@ -7,16 +7,20 @@ public class PlayerShoot : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject orbPrefab;
     float timeUntilFire;
-    public int ammoOrb;
+
+
+    public bool begin;
+    public float timerForOrb = 5;
     Player pm;
 
     private void Start()
     {
-        pm = gameObject.GetComponent<Player>();
+        pm = gameObject.GetComponent<Player>();       
     }
 
     private void Update()
-    {  
+    {
+        timerForOrb += Time.deltaTime;
         //Check ButtonDown, check direction of the player, create bullet.
         if (Input.GetButtonDown("Fire3") && timeUntilFire < Time.time)
         {
@@ -25,20 +29,18 @@ public class PlayerShoot : MonoBehaviour
             timeUntilFire = Time.time + fireRate;
         }
 
-        //Check ButtonDown, check direction of the player, create orb.
-        if (Input.GetButtonDown("Fire2") && ammoOrb == 1)
-        {        
+        if (Input.GetButtonDown("Fire2") && timerForOrb >= 5)
+        {
             float angle = pm.isFacingRight ? 0f : 180f;
             Instantiate(orbPrefab, firingPoint.position, Quaternion.Euler(new Vector3(0f, 0f, angle)));
             timeUntilFire = Time.time + fireRate;
-            ammoOrb = 0;
-            
+            begin = true;
         }
 
-        //Recharge
-        if (Input.GetButtonDown("Fire1") && ammoOrb == 0)
+        if (begin == true)
         {
-            ammoOrb = 1;
+            timerForOrb = 0;
+            begin = false;
         }
     }        
 }
