@@ -13,38 +13,36 @@ public class Enemy : MonoBehaviour
     public float frozenMaxTime;
     public Rigidbody2D rb;
     public Transform groundDetection;
+    public bool isPatrol;
+
 
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        //rb = GetComponent<Rigidbody2D>();
     }
 
 
     void Update()
     {
         //enemy movement
-        if (!frozenEnemy)
+        /*if (!frozenEnemy)
         { 
             transform.Translate(Vector2.right * speed * Time.deltaTime);
-        }
+        }*/
 
-        RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, 0.1f);
-
-        if (groundInfo.collider == false)
+        if (!frozenEnemy && isPatrol)
         {
-            if (movingRight == true)
+            transform.Translate(Vector2.right * speed * Time.deltaTime);
+            RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, 0.1f);
+            Debug.DrawRay(groundDetection.position, Vector2.down,Color.white);
+
+            if (groundInfo.collider == false)
             {
-                transform.eulerAngles = new Vector3(0, -180, 0);
-                movingRight = false;
-            }
-            else
-            {
-                transform.eulerAngles = new Vector3(0, 0, 0);
-                movingRight = true;
+                Flip();
             }
         }
-
+         
         if (frozenEnemy == true)
         {
             frozenTime += Time.deltaTime;
@@ -89,16 +87,7 @@ public class Enemy : MonoBehaviour
         {
             if (!frozenEnemy)
             {
-                if (movingRight == true)
-                {
-                    transform.eulerAngles = new Vector3(0, -180, 0);
-                    movingRight = false;
-                }
-                else
-                {
-                    transform.eulerAngles = new Vector3(0, 0, 0);
-                    movingRight = true;
-                }
+                Flip();
             }
         }
     }
@@ -115,6 +104,20 @@ public class Enemy : MonoBehaviour
                 player.knockFromRight = true;
             }
             else { player.knockFromRight = false; }
+        }
+    }
+
+    public void Flip()
+    {
+        if (movingRight == true)
+        {
+            transform.eulerAngles = new Vector3(0, -180, 0);
+            movingRight = false;
+        }
+        else
+        {
+            transform.eulerAngles = new Vector3(0, 0, 0);
+            movingRight = true;
         }
     }
 }
