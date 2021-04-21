@@ -5,33 +5,64 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float speed;
-    private bool movingRight = true;
+    [Header("ALL ENEMIES")]
     public int hp;
     public bool frozenEnemy;
     public float frozenTime;
     public float frozenMaxTime;
+
+    [Header("PATROL ENEMY")]
+    public bool isAPatrol;
+    public float speed;
+    private bool movingRight = true;
     public Rigidbody2D rb;
     public Transform groundDetection;
-    public bool isPatrol;
+
+    [Header("SHOOTER ENEMY")]
+    public bool isAShooter;
+    //Rock rockDirection;
+    public Vector2 lineOfSite;
+    public LayerMask playerLayer;
+    private bool canSeePlayer;
+    public GameObject rock;
+    public Transform firingPoint;
+    public Transform player;
+    public GameObject detectionPlayer;
+    public float jumpForce;
+    public float timeForShoot;
+    public float timeBetweenRock;
+    public float timeForJump;
+    public float timeBetweenJump;    
+    public float flipTimer;
+    public float timeForFlip;
+    public float timeForResetFlip;
+
+
+    [Header("CHASER ENEMY")]
+    public bool isAChaser;
+
+    public float timer;
+    public float speedWhenPlayerSpotted;
+    private float originalSpeed;
 
 
 
     private void Start()
     {
-        //rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
+        originalSpeed = speed;
+    }
+
+    private void FixedUpdate()
+    {
+        canSeePlayer = Physics2D.OverlapBox(detectionPlayer.transform.position, lineOfSite, 0, playerLayer);
     }
 
 
     void Update()
     {
-        //enemy movement
-        /*if (!frozenEnemy)
-        { 
-            transform.Translate(Vector2.right * speed * Time.deltaTime);
-        }*/
-
-        if (!frozenEnemy && isPatrol)
+        
+        if (!frozenEnemy && isAPatrol)
         {
             transform.Translate(Vector2.right * speed * Time.deltaTime);
             RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, 0.1f);
@@ -42,7 +73,71 @@ public class Enemy : MonoBehaviour
                 Flip();
             }
         }
-         
+
+        if (!frozenEnemy && isAShooter)
+        {
+            if (canSeePlayer)
+            {
+                timeForShoot += Time.deltaTime;
+                timeForJump += Time.deltaTime;
+                //timer = 0;
+                /*float distanceFromPlayer = player.position.x - transform.position.x;
+
+                if (distanceFromPlayer < 0)
+                {
+                    transform.eulerAngles = new Vector3(0, -180, 0);
+                    if (rock != null && (timeForShoot >= timeBetweenRock + 0.5f)) { rockDirection.leftDirection = false; }
+                }
+                else
+                {
+                    transform.eulerAngles = new Vector3(0, 0, 0);
+                    if (rock != null && (timeForShoot >= timeBetweenRock + 0.5f)) { rockDirection.leftDirection = true; }
+                }*/
+
+                if (timeForShoot >= timeBetweenRock)
+                {
+                    Instantiate(rock, firingPoint.position, transform.rotation);
+                    timeForShoot = 0;
+                }
+
+                if (timeForJump >= timeBetweenJump)
+                {
+                    rb.velocity = Vector2.up * jumpForce;
+                    timeForJump = 0;
+                }
+            }
+            else
+            {
+                timeForShoot = 0;
+                flipTimer += Time.deltaTime;
+                if (flipTimer <= timeForFlip) { transform.eulerAngles = new Vector3(0, -180, 0); }
+                if (flipTimer > timeForFlip) { transform.eulerAngles = new Vector3(0, 0, 0); }
+                if (flipTimer >= timeForResetFlip) { flipTimer = 0; }
+            }
+        }
+
+
+        if (!frozenEnemy && isAChaser)
+        {
+            isAPatrol = true;
+           
+            if (canSeePlayer)
+            {
+                timer += Time.deltaTime;
+                speed = 0;
+
+                if (timer >= 1f)
+                {                    
+                    speed = speedWhenPlayerSpotted;                    
+                }                
+            }
+            else
+            {
+                timer = 0;
+                speed = originalSpeed;
+            }
+        }
+
         if (frozenEnemy == true)
         {
             frozenTime += Time.deltaTime;
@@ -119,5 +214,11 @@ public class Enemy : MonoBehaviour
             transform.eulerAngles = new Vector3(0, 0, 0);
             movingRight = true;
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(detectionPlayer.transform.position, lineOfSite);
     }
 }

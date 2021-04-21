@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 2275102924914308417}
   - component: {fileID: 2275102924914308418}
   - component: {fileID: 2275102924914308419}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -226,4 +226,4 @@ MonoBehaviour:
     type: 3}
   orbIsOnCooldown: 0
   timerForOrb: 0
-  cooldownForOrb: 6
+  cooldownForOrb: 3

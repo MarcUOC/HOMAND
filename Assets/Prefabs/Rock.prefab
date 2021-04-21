@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 4501917264518558829}
   - component: {fileID: 59300147}
   m_Layer: 0
-  m_Name: RockBullet
-  m_TagString: Untagged
+  m_Name: Rock
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

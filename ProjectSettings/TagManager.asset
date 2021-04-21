@@ -9,6 +9,7 @@ TagManager:
   - Orb
   - Die
   - Wall
+  - Rock
   layers:
   - Default
   - TransparentFX

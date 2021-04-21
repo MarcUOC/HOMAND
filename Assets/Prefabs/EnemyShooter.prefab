@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 7934126258624675885}
   - component: {fileID: 7934126258624675884}
   - component: {fileID: 7934126258624675875}
+  - component: {fileID: 2066408860}
   - component: {fileID: 7934126258624675886}
-  - component: {fileID: 7934126258624675887}
+  - component: {fileID: 2066408859}
   m_Layer: 0
   m_Name: EnemyShooter
   m_TagString: Enemy
@@ -112,6 +113,32 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.32, y: 0.30382589}
   m_EdgeRadius: 0
+--- !u!61 &2066408860
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7934126258624675874}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.008157268}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.32, y: 0.32}
+    newSize: {x: 0.32, y: 0.32}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.32, y: 0.30368546}
+  m_EdgeRadius: 0
 --- !u!50 &7934126258624675886
 Rigidbody2D:
   serializedVersion: 4
@@ -133,7 +160,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &7934126258624675887
+--- !u!114 &2066408859
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,20 +169,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 7934126258624675874}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 334aafb8c4237384b9ecdd714c632969, type: 3}
+  m_Script: {fileID: 11500000, guid: cb400f3285ef8da419a45420704b4a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineOfSite: {x: 8, y: 0.3}
+  hp: 3
+  frozenEnemy: 0
+  frozenTime: 0
+  frozenMaxTime: 3
+  isAPatrol: 0
+  speed: 0
+  rb: {fileID: 0}
+  groundDetection: {fileID: 0}
+  isAShooter: 0
+  lineOfSite: {x: 4.5, y: 2}
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
-  rockBullet: {fileID: 4501917264518558830, guid: b2b0d16462062f14e808a90f276642d0,
-    type: 3}
-  firingPoint: {fileID: 7934126259228806367}
-  player: {fileID: 0}
   rock: {fileID: 4501917264518558830, guid: b2b0d16462062f14e808a90f276642d0, type: 3}
-  timer: 0
-  timeBetweenRock: 1
+  firingPoint: {fileID: 7934126259228806367}
+  player: {fileID: 2275102924914308420, guid: 5c1cd31843b3a324d82cd2480e1e9e20, type: 3}
+  detectionPlayer: {fileID: 7934126258988532675}
+  jumpForce: 4
+  timeForShoot: 0
+  timeBetweenRock: 0.9
+  timeForJump: 0
+  timeBetweenJump: 4
+  flipTimer: 0
+  timeForFlip: 2
+  timeForResetFlip: 4
+  isAChaser: 0
 --- !u!1 &7934126258988532675
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,7 +208,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7934126258988532684}
   m_Layer: 0
-  m_Name: Ground Detection
+  m_Name: Detection Player
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -180,7 +222,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7934126258988532675}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.211, y: -0.107, z: 0}
+  m_LocalPosition: {x: 2.41, y: 0.847, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7934126258624675885}

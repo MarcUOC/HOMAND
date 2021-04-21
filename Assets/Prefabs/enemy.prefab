@@ -145,13 +145,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb400f3285ef8da419a45420704b4a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
-  hp: 3
+  hp: 4
   frozenEnemy: 0
   frozenTime: 0
   frozenMaxTime: 3
+  isAPatrol: 1
+  speed: 1
   rb: {fileID: 3217428038180612297}
   groundDetection: {fileID: 3217428038464511070}
+  isAShooter: 0
+  lineOfSite: {x: 0, y: 0}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  rock: {fileID: 0}
+  firingPoint: {fileID: 0}
+  player: {fileID: 0}
+  detectionPlayer: {fileID: 3217428038180612293}
+  jumpForce: 0
+  timeToShoot: 0
+  timeBetweenRock: 0
+  timeToJump: 0
+  timeBetweenJump: 0
+  timer: 0
 --- !u!61 &1344351722
 BoxCollider2D:
   m_ObjectHideFlags: 0
