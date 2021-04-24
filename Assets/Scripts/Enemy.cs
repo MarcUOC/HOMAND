@@ -129,7 +129,7 @@ public class Enemy : MonoBehaviour
                 if (timer >= 1f)
                 {                    
                     speed = speedWhenPlayerSpotted;                    
-                }                
+                }
             }
             else
             {
@@ -159,6 +159,11 @@ public class Enemy : MonoBehaviour
             if (hp <= 0)
             {
                 Destroy(gameObject); //Enemy die
+            }
+
+            if (isAChaser && !canSeePlayer && !frozenEnemy)
+            {
+                Flip();
             }
         }
 

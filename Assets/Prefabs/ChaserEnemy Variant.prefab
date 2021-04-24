@@ -75,12 +75,12 @@ PrefabInstance:
       objectReference: {fileID: 1357144313}
     - target: {fileID: 2066408859, guid: c8e1189b917165b439c5b2a794429c49, type: 3}
       propertyPath: speedWhenPlayerSpotted
-      value: 1.5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7934126258624675874, guid: c8e1189b917165b439c5b2a794429c49,
         type: 3}
       propertyPath: m_Name
-      value: ChaserEnemy
+      value: ChaserEnemy Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7934126258624675885, guid: c8e1189b917165b439c5b2a794429c49,
         type: 3}
