@@ -20,7 +20,6 @@ public class Enemy : MonoBehaviour
 
     [Header("SHOOTER ENEMY")]
     public bool isAShooter;
-    //Rock rockDirection;
     public Vector2 lineOfSite;
     public LayerMask playerLayer;
     private bool canSeePlayer;
@@ -40,7 +39,6 @@ public class Enemy : MonoBehaviour
 
     [Header("CHASER ENEMY")]
     public bool isAChaser;
-
     public float timer;
     public float speedWhenPlayerSpotted;
     private float originalSpeed;
@@ -80,19 +78,6 @@ public class Enemy : MonoBehaviour
             {
                 timeForShoot += Time.deltaTime;
                 timeForJump += Time.deltaTime;
-                //timer = 0;
-                /*float distanceFromPlayer = player.position.x - transform.position.x;
-
-                if (distanceFromPlayer < 0)
-                {
-                    transform.eulerAngles = new Vector3(0, -180, 0);
-                    if (rock != null && (timeForShoot >= timeBetweenRock + 0.5f)) { rockDirection.leftDirection = false; }
-                }
-                else
-                {
-                    transform.eulerAngles = new Vector3(0, 0, 0);
-                    if (rock != null && (timeForShoot >= timeBetweenRock + 0.5f)) { rockDirection.leftDirection = true; }
-                }*/
 
                 if (timeForShoot >= timeBetweenRock)
                 {
@@ -116,7 +101,6 @@ public class Enemy : MonoBehaviour
             }
         }
 
-
         if (!frozenEnemy && isAChaser)
         {
             isAPatrol = true;
@@ -138,7 +122,7 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        if (frozenEnemy == true)
+        if (frozenEnemy)
         {
             frozenTime += Time.deltaTime;
             if(frozenTime >= frozenMaxTime)

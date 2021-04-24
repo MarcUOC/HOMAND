@@ -17,17 +17,8 @@ public class Rock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //rb.velocity = transform.right * rockSpeed;
-        if (leftDirection == true)
-        {
-            rb.velocity = -transform.right * rockSpeed;
-        }
-        else
-        {
-            rb.velocity = transform.right * rockSpeed;
-        }
+        rb.velocity = transform.right * rockSpeed;
         Destroy(gameObject, 4);
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

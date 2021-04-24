@@ -16,6 +16,4 @@ public class Arrow : MonoBehaviour
     {
         Destroy(gameObject);
     }
-
-    
 }
