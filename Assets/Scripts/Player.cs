@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -30,24 +31,95 @@ public class Player : MonoBehaviour
     public Transform firingPoint;
     public GameObject arrowPrefab;
     public GameObject orbPrefab;
-    float timeUntilFire;
+    public float timeUntilFire;
     public bool orbIsOnCooldown;
     public float timerForOrb;
     public float cooldownForOrb;
 
     //ANIMATOR
-    private Animator anim;
+    public Animator anim;
+
+    //HEALTH SYSTEM
+    public int health;
+    public int numOfHearts;
+    public Image[] hearts;
+    public Sprite fullHeart;
+    public Camera cameraView;
+
+    public Image timerBar;
+    public float timeLeft;
 
 
     void Start()
     {
         anim = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();        
+        rb = GetComponent<Rigidbody2D>();
+        
     }
 
     
     void FixedUpdate()
     {
+        /*if (timeLeft > 0)
+        {
+            timeLeft -= Time.deltaTime;
+            timerBar.fillAmount = timeLeft / cooldownForOrb;
+        }*/
+
+        //HUD: FILL BAR ORB
+        /*if (orbIsOnCooldown)
+        {
+            timeLeft += Time.deltaTime;
+            //timerBar.fillAmount = 0;
+            orbIsOnCooldown = true;
+            timerBar.fillAmount = timeLeft / cooldownForOrb;
+        }
+        else
+        {
+            timerBar.fillAmount = 1;
+            orbIsOnCooldown = false;
+            //timerBar.fillAmount = timeLeft / cooldownForOrb;
+            timeLeft = 0;
+        }*/
+
+        
+
+
+        //HUD: HEARTS
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            if (i < health)
+            {
+                hearts[i].sprite = fullHeart;
+            }
+            else
+            {
+                hearts[i].sprite = fullHeart;
+                hearts[i].transform.localScale = new Vector2(0.4f, 0.4f);
+            }
+
+            if (i < numOfHearts)
+            {
+                hearts[i].enabled = true;
+            }
+            else
+            {
+                hearts[i].enabled = false;
+            }
+        }
+
+        if (health <= 0)
+        {
+            Time.timeScale = 0.5f;
+            cameraView.orthographicSize = cameraView.orthographicSize - 1f * Time.deltaTime;
+            anim.SetBool("Death", true);
+        }
+
+
+
+
+
+
         moveInput = Input.GetAxisRaw("Horizontal");
 
         //Player movement and knockback
@@ -109,6 +181,7 @@ public class Player : MonoBehaviour
             doubleJump = true;
             //anim.SetBool("Jump", true);
         }
+        //else { anim.SetBool("Jump", false); }
 
 
         //DOUBLE JUMP
@@ -160,15 +233,25 @@ public class Player : MonoBehaviour
             orbIsOnCooldown = true;
         }
 
-        if (orbIsOnCooldown == true)
+        if (orbIsOnCooldown)
         {
             timerForOrb += Time.deltaTime;
             if (timerForOrb >= cooldownForOrb)
             {
                 timerForOrb = 0;
                 orbIsOnCooldown = false;
-            }       
+            }
+            timerBar.fillAmount = timerForOrb / cooldownForOrb;
         }
+        else
+        {
+            timerBar.fillAmount = 1;
+            //orbIsOnCooldown = false;
+            //timerBar.fillAmount = timeLeft / cooldownForOrb;
+            //timerForOrb = 0;
+        }
+
+        
     }
 
     //DEAD
@@ -178,6 +261,13 @@ public class Player : MonoBehaviour
         {
             SceneManager.LoadScene("Game");
         }
+
+        if (collision.gameObject.tag.Equals("Enemy") || collision.gameObject.tag.Equals("Rock"))
+        {
+            //anim.SetBool("Hurt", true);
+            health = health - 1;
+        }
+        //else { anim.SetBool("Hurt", false); }
     }
 
     void Attack()
@@ -185,5 +275,11 @@ public class Player : MonoBehaviour
         float angle = isFacingRight ? 0f : 180f;
         Instantiate(arrowPrefab, firingPoint.position, Quaternion.Euler(new Vector3(0f, 0f, angle)));
         timeUntilFire = Time.time + timeBetweenArrow;
+    }
+
+    void Die()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Game");
     }
 }

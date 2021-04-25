@@ -43,6 +43,7 @@ public class Enemy : MonoBehaviour
     public float speedWhenPlayerSpotted;
     private float originalSpeed;
 
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
