@@ -42,6 +42,7 @@ public class Enemy : MonoBehaviour
     public float timeToStartChasing;
     public float speedWhenPlayerSpotted;
     private float originalSpeed;
+    public GameObject alert;
 
 
     private void Start()
@@ -81,14 +82,14 @@ public class Enemy : MonoBehaviour
                 {
                     Instantiate(rock, firingPoint.position, transform.rotation);
                     timeForShoot = 0;
-                    timeBetweenRock = Random.Range(0.5f, 2);
+                    timeBetweenRock = Random.Range(0.25f, 1);
                 }
 
                 if (timeForJump >= timeBetweenJump)
                 {
                     rb.velocity = Vector2.up * jumpForce;
                     timeForJump = 0;
-                    timeBetweenJump = Random.Range(1.5f, 6);
+                    timeBetweenJump = Random.Range(1.5f, 5);
                 }
             }
             else
@@ -104,21 +105,25 @@ public class Enemy : MonoBehaviour
         if (!frozenEnemy && isAChaser)
         {
             isAPatrol = true;
+            alert.transform.position = new Vector3(this.transform.position.x, this.transform.position.y+0.35f, this.transform.position.z);
            
             if (canSeePlayer)
             {
                 chasetimer += Time.deltaTime;
                 speed = 0;
+                alert.gameObject.SetActive(true);
 
                 if (chasetimer >= timeToStartChasing)
-                {                    
-                    speed = speedWhenPlayerSpotted;                    
-                }
+                {
+                    speed = speedWhenPlayerSpotted;
+                    alert.gameObject.SetActive(false);
+                }           
             }
             else
             {
                 chasetimer = 0;
                 speed = originalSpeed;
+                alert.gameObject.SetActive(false);
             }
         }
 
@@ -137,7 +142,7 @@ public class Enemy : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other)
     {
         //collision bullet vs enemy
-        if (other.gameObject.tag.Equals("Bullet"))
+        if (other.gameObject.tag.Equals("FireBall"))
         {
             hp--; //Enemy -1 hp
             if (hp <= 0)
@@ -150,14 +155,6 @@ public class Enemy : MonoBehaviour
                 Flip();
             }
         }
-
-
-        //collision player vs enemy
-        /*if (other.gameObject.tag.Equals("Player"))
-        {
-            SceneManager.LoadScene("Game"); //Player die
-        }*/
-
 
         //collision orb vs enemy
         if (other.gameObject.tag.Equals("Orb"))
@@ -195,12 +192,12 @@ public class Enemy : MonoBehaviour
     {
         if (movingRight == true)
         {
-            transform.eulerAngles = new Vector3(0, -180, 0);
+            transform.localEulerAngles = new Vector3(0, -180, 0);
             movingRight = false;
         }
         else
         {
-            transform.eulerAngles = new Vector3(0, 0, 0);
+            transform.localEulerAngles = new Vector3(0, 0, 0);
             movingRight = true;
         }
     }

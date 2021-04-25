@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Orb : MonoBehaviour
 {
-    public float bulletSpeed = 5f;
+    public float orbSpeed = 5f;
     public Rigidbody2D rb;
     Enemy enemy;
 
@@ -15,7 +15,7 @@ public class Orb : MonoBehaviour
     private void Update()
     {
         //direction orb
-        rb.velocity = transform.right * bulletSpeed;        
+        rb.velocity = transform.right * orbSpeed;        
         Destroy(gameObject, 4);
     }
 

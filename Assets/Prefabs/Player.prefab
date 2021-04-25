@@ -160,7 +160,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.012744427, y: -0.012818396}
+  m_Offset: {x: -0.008852959, y: -0.012818396}
   m_SpriteTilingProperty:
     border: {x: 0.1796875, y: 0.234375, z: 0.375, w: 0.4375}
     pivot: {x: 0.37, y: 0.35}
@@ -171,7 +171,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.2600727, y: 0.34191597}
+  m_Size: {x: 0.17617226, y: 0.34191597}
   m_EdgeRadius: 0
 --- !u!50 &2275102924914308418
 Rigidbody2D:
@@ -206,28 +206,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a54c6ef132e7c43bf6f80e325e3c84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2.5
-  isFacingRight: 1
-  jumpForce: 3.5
-  doubleJump: 0
+  speed: 3
+  jumpForce: 4
   groundCheck: {fileID: 2275102923813212329}
   checkRadius: 0.05
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
-  knockback: 2.5
-  knockbackLength: 0.25
-  knockbackCount: 0
-  knockFromRight: 0
-  timeBetweenArrow: 0.5
+  health: 6
+  numOfHearts: 6
+  hearts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  fullHeart: {fileID: 21300000, guid: fb83a090a1303a3459d377b8bbdf01ca, type: 3}
+  cameraView: {fileID: 0}
+  timerBar: {fileID: 0}
+  timeBetweenFireBall: 0.5
   firingPoint: {fileID: 2275102923506902680}
-  arrowPrefab: {fileID: 4501917264518558830, guid: e5bd3437cb35e9e4a8cdd87ea0a9f652,
+  fireballPrefab: {fileID: 4501917264518558830, guid: e5bd3437cb35e9e4a8cdd87ea0a9f652,
     type: 3}
   orbPrefab: {fileID: 8516937231360534635, guid: 58388d71904a49341915f108d40e2fca,
     type: 3}
   orbIsOnCooldown: 0
   timerForOrb: 0
   cooldownForOrb: 3
+  timeUntilFire: 0
+  knockback: 2.5
+  knockbackLength: 0.25
+  knockbackCount: 0
+  knockFromRight: 0
 --- !u!95 &1152737602
 Animator:
   serializedVersion: 3

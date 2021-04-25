@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3217428038180612298}
   - component: {fileID: 1344351722}
   m_Layer: 0
-  m_Name: enemy
+  m_Name: PatrolEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,7 +99,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0019667149, y: 0.002228275}
+  m_Offset: {x: 0.0019667149, y: 0.002160266}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -110,7 +110,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.27928144, y: 0.29998848}
+  m_Size: {x: 0.27928144, y: 0.3009406}
   m_EdgeRadius: 0
 --- !u!50 &3217428038180612297
 Rigidbody2D:
@@ -163,11 +163,17 @@ MonoBehaviour:
   player: {fileID: 0}
   detectionPlayer: {fileID: 3217428038180612293}
   jumpForce: 0
-  timeToShoot: 0
+  timeForShoot: 0
   timeBetweenRock: 0
-  timeToJump: 0
+  timeForJump: 0
   timeBetweenJump: 0
-  timer: 0
+  flipTimer: 0
+  timeForFlip: 0
+  timeForResetFlip: 0
+  isAChaser: 0
+  chasetimer: 0
+  timeToStartChasing: 0
+  speedWhenPlayerSpotted: 0
 --- !u!61 &1344351722
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -181,7 +187,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0019667149, y: 0.002228275}
+  m_Offset: {x: 0.001926899, y: 0.00222826}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -192,7 +198,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.27928144, y: 0.29998848}
+  m_Size: {x: 0.28009123, y: 0.2999885}
   m_EdgeRadius: 0
 --- !u!1 &3217428038464511069
 GameObject:

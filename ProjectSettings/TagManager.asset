@@ -4,12 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Bullet
   - Enemy
   - Orb
   - Die
   - Wall
   - Rock
+  - FireBall
   layers:
   - Default
   - TransparentFX

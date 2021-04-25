@@ -143,6 +143,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69147c44fc8e76849842c9e2c1ec57b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rockSpeed: 2
+  rockSpeed: 3.5
   rb: {fileID: 4501917264518558833}
-  leftDirection: 0
