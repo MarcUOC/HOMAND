@@ -35,9 +35,13 @@ public class Player : MonoBehaviour
     public float timerForOrb;
     public float cooldownForOrb;
 
+    //ANIMATOR
+    private Animator anim;
+
 
     void Start()
     {
+        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();        
     }
 
@@ -66,47 +70,86 @@ public class Player : MonoBehaviour
             knockbackCount -= Time.deltaTime;
             doubleJump = true;
         }
+        
 
         //Player direction
         if (moveInput > 0)
         {
-            transform.localScale = new Vector3(1f, 1, 1f);
+            //transform.localScale = new Vector3(1f, 1, 1f);
+            transform.eulerAngles = new Vector3(0, 0, 0);
             isFacingRight = true;
         }
         else if (moveInput < 0)
         {
-            transform.localScale = new Vector3(-1f, 1, 1f);
+            //transform.localScale = new Vector3(-1f, 1, 1f);
+            transform.eulerAngles = new Vector3(0, -180, 0);
             isFacingRight = false;
         }
+
+        if (moveInput == 0)
+        {
+            anim.SetBool("Run", false);
+        }
+        else
+        {
+            anim.SetBool("Run", true);
+        }
+
 
         //Player is grounded
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
     }
 
     private void Update()
-    {        
+    {
         //JUMP
         if (Input.GetButtonDown("Jump") && isGrounded == true)
         {
             rb.velocity = Vector2.up * jumpForce;
             doubleJump = true;
+            //anim.SetBool("Jump", true);
         }
+
 
         //DOUBLE JUMP
         if (Input.GetButtonDown("Jump") && isGrounded == false && doubleJump == true)
         {
             rb.velocity = Vector2.up * jumpForce;
             doubleJump = false;
+            anim.SetBool("Double Jump", true);
+        }
+        else { anim.SetBool("Double Jump", false); }
+
+        if (!isGrounded)
+        { 
+            anim.SetBool("Jump", true);
+        }
+        else
+        {
+            anim.SetBool("Jump", false);
         }
 
-        
+
+        /*if (!isGrounded && doubleJump && (Input.GetButtonDown("Jump")))
+        {
+            anim.SetBool("Double Jump", true);
+        }
+        else
+        {
+            anim.SetBool("Double Jump", false);
+        }*/
+
         //THROW ARROWS
         if (Input.GetButtonDown("Fire3") && timeUntilFire < Time.time)
         {
-            float angle = isFacingRight ? 0f : 180f;
-            Instantiate(arrowPrefab, firingPoint.position, Quaternion.Euler(new Vector3(0f, 0f, angle)));
-            timeUntilFire = Time.time + timeBetweenArrow;
+            Attack();
+            anim.SetBool("Attack", true);
         }
+        else
+        {
+            anim.SetBool("Attack", false);
+        }
+
 
 
         //THROW ORB
@@ -124,7 +167,7 @@ public class Player : MonoBehaviour
             {
                 timerForOrb = 0;
                 orbIsOnCooldown = false;
-            }            
+            }       
         }
     }
 
@@ -135,5 +178,12 @@ public class Player : MonoBehaviour
         {
             SceneManager.LoadScene("Game");
         }
+    }
+
+    void Attack()
+    {
+        float angle = isFacingRight ? 0f : 180f;
+        Instantiate(arrowPrefab, firingPoint.position, Quaternion.Euler(new Vector3(0f, 0f, angle)));
+        timeUntilFire = Time.time + timeBetweenArrow;
     }
 }

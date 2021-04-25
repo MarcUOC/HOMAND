@@ -67,12 +67,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2066408859, guid: c8e1189b917165b439c5b2a794429c49, type: 3}
       propertyPath: lineOfSite.y
-      value: 0.75
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2066408859, guid: c8e1189b917165b439c5b2a794429c49, type: 3}
       propertyPath: groundDetection
       value: 
       objectReference: {fileID: 1357144313}
+    - target: {fileID: 2066408859, guid: c8e1189b917165b439c5b2a794429c49, type: 3}
+      propertyPath: timeToStartChasing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2066408859, guid: c8e1189b917165b439c5b2a794429c49, type: 3}
       propertyPath: speedWhenPlayerSpotted
       value: 3
@@ -80,7 +84,7 @@ PrefabInstance:
     - target: {fileID: 7934126258624675874, guid: c8e1189b917165b439c5b2a794429c49,
         type: 3}
       propertyPath: m_Name
-      value: ChaserEnemy Variant
+      value: ChaserEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 7934126258624675885, guid: c8e1189b917165b439c5b2a794429c49,
         type: 3}
@@ -95,7 +99,7 @@ PrefabInstance:
     - target: {fileID: 7934126258624675885, guid: c8e1189b917165b439c5b2a794429c49,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.35
+      value: -10.31
       objectReference: {fileID: 0}
     - target: {fileID: 7934126258624675885, guid: c8e1189b917165b439c5b2a794429c49,
         type: 3}
@@ -150,7 +154,7 @@ PrefabInstance:
     - target: {fileID: 7934126258988532684, guid: c8e1189b917165b439c5b2a794429c49,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.281
+      value: 0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8e1189b917165b439c5b2a794429c49, type: 3}

@@ -36,19 +36,17 @@ public class Enemy : MonoBehaviour
     public float timeForFlip;
     public float timeForResetFlip;
 
-
     [Header("CHASER ENEMY")]
     public bool isAChaser;
-    public float timer;
+    public float chasetimer;
+    public float timeToStartChasing;
     public float speedWhenPlayerSpotted;
     private float originalSpeed;
-
-
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        originalSpeed = speed;
+        originalSpeed = speed;        
     }
 
     private void FixedUpdate()
@@ -59,7 +57,6 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        
         if (!frozenEnemy && isAPatrol)
         {
             transform.Translate(Vector2.right * speed * Time.deltaTime);
@@ -83,12 +80,14 @@ public class Enemy : MonoBehaviour
                 {
                     Instantiate(rock, firingPoint.position, transform.rotation);
                     timeForShoot = 0;
+                    timeBetweenRock = Random.Range(0.5f, 2);
                 }
 
                 if (timeForJump >= timeBetweenJump)
                 {
                     rb.velocity = Vector2.up * jumpForce;
                     timeForJump = 0;
+                    timeBetweenJump = Random.Range(1.5f, 6);
                 }
             }
             else
@@ -107,17 +106,17 @@ public class Enemy : MonoBehaviour
            
             if (canSeePlayer)
             {
-                timer += Time.deltaTime;
+                chasetimer += Time.deltaTime;
                 speed = 0;
 
-                if (timer >= 1f)
+                if (chasetimer >= timeToStartChasing)
                 {                    
                     speed = speedWhenPlayerSpotted;                    
                 }
             }
             else
             {
-                timer = 0;
+                chasetimer = 0;
                 speed = originalSpeed;
             }
         }
