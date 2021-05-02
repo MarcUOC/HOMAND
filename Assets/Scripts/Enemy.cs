@@ -7,31 +7,26 @@ public class Enemy : MonoBehaviour
 {
     [Header("ALL ENEMIES")]
     public int hp;
+    public float speed;
     public bool frozenEnemy;
     public float frozenTime;
     public float frozenMaxTime;
-
-    [Header("PATROL ENEMY")]
-    public bool isAPatrol;
-    public float speed;
-    private bool movingRight = true;
+    public Vector2 lineOfSite;
     public Rigidbody2D rb;
-    public Transform groundDetection;
+    private bool canSeePlayer;
+    public Transform firingPoint;
+    //public Transform player;
+    public GameObject detectionPlayer;
+    public LayerMask playerLayer;
 
     [Header("SHOOTER ENEMY")]
     public bool isAShooter;
-    public Vector2 lineOfSite;
-    public LayerMask playerLayer;
-    private bool canSeePlayer;
     public GameObject rock;
-    public Transform firingPoint;
-    public Transform player;
-    public GameObject detectionPlayer;
     public float jumpForce;
     public float timeForShoot;
     public float timeBetweenRock;
     public float timeForJump;
-    public float timeBetweenJump;    
+    public float timeBetweenJump;
     public float flipTimer;
     public float timeForFlip;
     public float timeForResetFlip;
@@ -43,12 +38,28 @@ public class Enemy : MonoBehaviour
     public float speedWhenPlayerSpotted;
     private float originalSpeed;
     public GameObject alert;
+    public Transform groundDetection;
+    private bool movingRight = true;
+
+    [Header("INVOKER ENEMY")]
+    public bool isAnInvoker;    
+    public GameObject bombPrefab;
+    public float invokeTimer;
+    public float timeForInvoke;
+
+    [Header("BOMB ENEMY")]
+    public bool isABomb;
+
+    //public int bombsInvoked;
+    //public int MaxBombsInvoked;
+
+
 
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        originalSpeed = speed;        
+        originalSpeed = speed;
     }
 
     private void FixedUpdate()
@@ -59,16 +70,36 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (!frozenEnemy && isAPatrol)
+        if (!frozenEnemy && isAnInvoker)
+        {
+            if (canSeePlayer)
+            {
+                speed = 0;
+                invokeTimer += Time.deltaTime;
+
+                if (invokeTimer >= timeForInvoke)
+                {
+                    Instantiate(bombPrefab, firingPoint.position, transform.rotation);
+                    invokeTimer = 0;
+                    //bombsInvoked++;
+                }
+                    //speed = originalSpeed;
+                    /*speed = 0;
+                    transform.Translate(Vector2.right * speed * Time.deltaTime);
+                    RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, 0.1f);
+                    Debug.DrawRay(groundDetection.position, Vector2.down, Color.white);
+
+                    if (groundInfo.collider == false)
+                    {
+                        Flip();
+                    }*/
+                }
+            }        
+
+        if (!frozenEnemy && isABomb)
         {
             transform.Translate(Vector2.right * speed * Time.deltaTime);
-            RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, 0.1f);
-            Debug.DrawRay(groundDetection.position, Vector2.down,Color.white);
-
-            if (groundInfo.collider == false)
-            {
-                Flip();
-            }
+            Destroy(gameObject, 3);            
         }
 
         if (!frozenEnemy && isAShooter)
@@ -104,9 +135,16 @@ public class Enemy : MonoBehaviour
 
         if (!frozenEnemy && isAChaser)
         {
-            isAPatrol = true;
-            alert.transform.position = new Vector3(this.transform.position.x, this.transform.position.y+0.35f, this.transform.position.z);
-           
+            transform.Translate(Vector2.right * speed * Time.deltaTime);
+            RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, 0.1f);
+            alert.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.35f, this.transform.position.z);
+            Debug.DrawRay(groundDetection.position, Vector2.down, Color.white);
+
+            if (groundInfo.collider == false)
+            {
+                Flip();
+            }
+
             if (canSeePlayer)
             {
                 chasetimer += Time.deltaTime;
@@ -148,6 +186,7 @@ public class Enemy : MonoBehaviour
             if (hp <= 0)
             {
                 Destroy(gameObject); //Enemy die
+                Destroy(alert.gameObject);
             }
 
             if (isAChaser && !canSeePlayer && !frozenEnemy)
@@ -162,15 +201,19 @@ public class Enemy : MonoBehaviour
             frozenEnemy = true;            
         }
 
-
         //collision enemy vs enemy or wall
         if (other.gameObject.tag.Equals("Enemy") || other.gameObject.tag.Equals("Wall")) 
         {
-            if (!frozenEnemy)
+            if (!frozenEnemy && isAChaser)
             {
                 Flip();
             }
-        }
+
+            if (!frozenEnemy && isABomb)
+            {
+                Destroy(gameObject);
+            }
+        }        
     }
 
     void OnTriggerEnter2D(Collider2D other)

@@ -53,15 +53,12 @@ public class Player : MonoBehaviour
     private Animator anim;
 
 
-
-
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
 
-    
     void FixedUpdate()
     {
         moveInput = Input.GetAxisRaw("Horizontal");
@@ -173,17 +170,31 @@ public class Player : MonoBehaviour
     //DEAD
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag.Equals("Die"))
+     /*   if (collision.gameObject.tag.Equals("Die"))
         {
             SceneManager.LoadScene("Game");
         }
 
-        if (collision.gameObject.tag.Equals("Enemy") || collision.gameObject.tag.Equals("Rock"))
+        if (collision.gameObject.tag.Equals("Enemy") || collision.gameObject.tag.Equals("Rock") || collision.gameObject.tag.Equals("Trap"))
+        {
+            //anim.SetBool("Hurt", true);
+            health--;
+        }*/
+        //else { anim.SetBool("Hurt", false); }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag.Equals("Die"))
+        {
+            SceneManager.LoadScene("Game");
+        }
+
+        if (other.gameObject.tag.Equals("Enemy") || other.gameObject.tag.Equals("Rock") || other.gameObject.tag.Equals("Trap"))
         {
             //anim.SetBool("Hurt", true);
             health--;
         }
-        //else { anim.SetBool("Hurt", false); }
     }
 
     void playerDirection()

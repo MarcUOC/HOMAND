@@ -10,6 +10,7 @@ TagManager:
   - Wall
   - Rock
   - FireBall
+  - Trap
   layers:
   - Default
   - TransparentFX
