@@ -5,11 +5,13 @@ using UnityEngine;
 public class LavaMagma : MonoBehaviour
 {
     private Animator anim;
+    private BoxCollider2D boxcol;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        anim = GetComponent<Animator>();
+        boxcol = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -20,7 +22,9 @@ public class LavaMagma : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(gameObject);
+        boxcol.enabled = false;
+        anim.SetBool("LavaMagma Collision", true);
+
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -36,6 +40,11 @@ public class LavaMagma : MonoBehaviour
             }
             else { player.knockFromRight = false; }
         }
+    }
+
+    void whenDestroyed()
+    {
+        Destroy(gameObject);
     }
 }
 

@@ -17,8 +17,7 @@ public class Trap : MonoBehaviour
 
     public float lavaTimer;
     public float timerBetweenLavaDrop;
-
-    
+        
 
     // Start is called before the first frame update
     void Start()
@@ -57,7 +56,6 @@ public class Trap : MonoBehaviour
     }
 
 
-
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.name == "Player")
@@ -75,7 +73,10 @@ public class Trap : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Destroy(gameObject);
+        if (this.name == "Spike_Trap")
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnDrawGizmosSelected()

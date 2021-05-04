@@ -173,22 +173,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 3
+  speed: 0
   frozenEnemy: 0
   frozenTime: 0
   frozenMaxTime: 3
-  isAPatrol: 0
-  speed: 0
+  lineOfSite: {x: 4.5, y: 2.12}
   rb: {fileID: 0}
-  groundDetection: {fileID: 0}
-  isAShooter: 1
-  lineOfSite: {x: 4.5, y: 4.12}
+  firingPoint: {fileID: 664257544022995523}
+  detectionPlayer: {fileID: 7934126258988532675}
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
+  isAShooter: 1
   rock: {fileID: 4501917264518558830, guid: b2b0d16462062f14e808a90f276642d0, type: 3}
-  firingPoint: {fileID: 664257544022995523}
-  player: {fileID: 0}
-  detectionPlayer: {fileID: 7934126258988532675}
   jumpForce: 4
   timeForShoot: 0
   timeBetweenRock: 0.9
@@ -202,6 +199,12 @@ MonoBehaviour:
   timeToStartChasing: 0
   speedWhenPlayerSpotted: 0
   alert: {fileID: 0}
+  groundDetection: {fileID: 0}
+  isAnInvoker: 0
+  bombPrefab: {fileID: 0}
+  invokeTimer: 0
+  timeForInvoke: 0
+  isABomb: 0
 --- !u!1 &7934126258988532675
 GameObject:
   m_ObjectHideFlags: 0
