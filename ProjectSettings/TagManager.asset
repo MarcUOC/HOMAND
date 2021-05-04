@@ -11,6 +11,7 @@ TagManager:
   - Rock
   - FireBall
   - Trap
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX

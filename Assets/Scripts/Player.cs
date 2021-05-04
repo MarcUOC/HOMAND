@@ -170,17 +170,30 @@ public class Player : MonoBehaviour
     //DEAD
     private void OnCollisionEnter2D(Collision2D collision)
     {
-     /*   if (collision.gameObject.tag.Equals("Die"))
-        {
-            SceneManager.LoadScene("Game");
-        }
+        /*   if (collision.gameObject.tag.Equals("Die"))
+           {
+               SceneManager.LoadScene("Game");
+           }
 
-        if (collision.gameObject.tag.Equals("Enemy") || collision.gameObject.tag.Equals("Rock") || collision.gameObject.tag.Equals("Trap"))
-        {
-            //anim.SetBool("Hurt", true);
-            health--;
-        }*/
+           if (collision.gameObject.tag.Equals("Enemy") || collision.gameObject.tag.Equals("Rock") || collision.gameObject.tag.Equals("Trap"))
+           {
+               //anim.SetBool("Hurt", true);
+               health--;
+           }*/
         //else { anim.SetBool("Hurt", false); }
+
+        if (collision.gameObject.tag.Equals("MovingPlatform"))
+        {
+            transform.parent = collision.transform;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Equals("MovingPlatform"))
+        {
+            transform.parent = null;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -195,6 +208,8 @@ public class Player : MonoBehaviour
             //anim.SetBool("Hurt", true);
             health--;
         }
+
+
     }
 
     void playerDirection()
