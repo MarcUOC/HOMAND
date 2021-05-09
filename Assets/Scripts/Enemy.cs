@@ -15,7 +15,6 @@ public class Enemy : MonoBehaviour
     public Rigidbody2D rb;
     private bool canSeePlayer;
     public Transform firingPoint;
-    //public Transform player;
     public GameObject detectionPlayer;
     public LayerMask playerLayer;
 
@@ -54,16 +53,15 @@ public class Enemy : MonoBehaviour
     [Header("BOMB ENEMY")]
     public bool isABomb;
 
-    //public int bombsInvoked;
-    //public int MaxBombsInvoked;
-
+    [Header("ANIMATIONS")]
     public Animator anim;
     private SpriteRenderer spriteHurt;
     private float resetHurt;
     public BoxCollider2D boxCol1;
     public BoxCollider2D boxCol2;
     public GameObject freezingSpikes;
-
+    public bool isABoss;
+    public float timerBoss;
 
 
     private void Start()
@@ -94,7 +92,7 @@ public class Enemy : MonoBehaviour
                 {
                     Instantiate(bombPrefab, firingPoint.position, transform.rotation);
                     anim.SetBool("Invoker Attack", true);
-                    timeForInvoke = Random.Range(0.25f, 1.5f);
+                    timeForInvoke = Random.Range(0.25f, 1.25f);
                     invokeTimer = 0;
                 }
             }
@@ -182,6 +180,38 @@ public class Enemy : MonoBehaviour
                 alert.gameObject.SetActive(false);
                 anim.SetBool("Start Chasing", false);
                 anim.SetBool("Run", false);
+            }
+        }
+        
+        if (!frozenEnemy && isABoss && hp > 0)
+        {
+            timerBoss += Time.deltaTime;
+            if (timerBoss < 10)
+            {
+                isAChaser = true;
+            }
+            if (timerBoss > 10 && timerBoss < 20)
+            {
+                isAShooter = true;
+                isAChaser = false;
+            }
+            if(timerBoss > 20 && timerBoss < 30)
+            {
+                isAShooter = false;
+                isAnInvoker = true;
+            }
+            if (timerBoss > 30)
+            {
+                isAnInvoker = false;
+                isAChaser = true;
+                timerBoss = 0;
+            }
+            if (!canSeePlayer && isAnInvoker)
+            {
+                flipTimer += Time.deltaTime;
+                if (flipTimer <= timeForFlip) { transform.eulerAngles = new Vector3(0, -180, 0); }
+                if (flipTimer > timeForFlip) { transform.eulerAngles = new Vector3(0, 0, 0); }
+                if (flipTimer >= timeForResetFlip) { flipTimer = 0; }
             }
         }
 

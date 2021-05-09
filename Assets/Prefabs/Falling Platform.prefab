@@ -4852,7 +4852,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.006024331, y: 2.0655668}
+  m_Offset: {x: 0.006024331, y: 0.090183735}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -4863,7 +4863,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9959838, y: 4.1270843}
+  m_Size: {x: 0.9959838, y: 0.17631817}
   m_EdgeRadius: 0
 --- !u!61 &2854463493515209638
 BoxCollider2D:
@@ -4904,10 +4904,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerForFalling: 0
-  timerMaxForFalling: 2
+  timerMaxForFalling: 1.5
   timerForReset: 0
   isTriggered: 0
-  particleSystem: {fileID: 541592940}
+  particleSys: {fileID: 541592940}
+  boxCol: {fileID: 2854463493515209638}
   startPos: {x: 0, y: 0, z: 0}
 --- !u!50 &2854463493515209634
 Rigidbody2D:

@@ -9,7 +9,7 @@ public class FallingPlatform : MonoBehaviour
     public float timerMaxForFalling;
     public float timerForReset;
     public bool isTriggered;
-    public GameObject particleSystem;
+    public GameObject particleSys;
     
     public Vector3 startPos;
 
@@ -26,30 +26,30 @@ public class FallingPlatform : MonoBehaviour
         if (isTriggered)
         {
             timerForFalling += Time.deltaTime;
-            particleSystem.SetActive(true);
+            particleSys.SetActive(true);
 
             if (timerForFalling >= timerMaxForFalling)
             {
-                rb.gravityScale = 1f;
+                rb.gravityScale = 0.5f;
             }
         }
         else
         {
-            particleSystem.SetActive(false);
+            particleSys.SetActive(false);
         }
-        
-        if (rb.gravityScale >= 1f)
+
+        if (rb.gravityScale >= 0.5f)
         {
             timerForReset += Time.deltaTime;
-            
+
             if (timerForReset >= 2)
             {
                 transform.position = startPos;
-                rb.gravityScale = 0;            
+                rb.gravityScale = 0;                
+                timerForReset = 0;
                 timerForFalling = 0;
-                timerForReset = 0;                
             }
-        }
+        }        
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -67,6 +67,5 @@ public class FallingPlatform : MonoBehaviour
             isTriggered = false;
         }        
     }
-
 
 }
