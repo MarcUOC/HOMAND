@@ -21,6 +21,10 @@ public class Enemy : MonoBehaviour
 
     [Header("SHOOTER ENEMY")]
     public bool isAShooter;
+    public bool isGrounded;
+    public Transform groundCheck;
+    public float checkRadius;
+    public LayerMask whatIsGround;
     public GameObject rock;
     public float jumpForce;
     public float timeForShoot;
@@ -53,24 +57,33 @@ public class Enemy : MonoBehaviour
     //public int bombsInvoked;
     //public int MaxBombsInvoked;
 
+    public Animator anim;
+    private SpriteRenderer spriteHurt;
+    private float resetHurt;
+    public BoxCollider2D boxCol1;
+    public BoxCollider2D boxCol2;
+    public GameObject freezingSpikes;
 
 
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        spriteHurt = GetComponent<SpriteRenderer>();
         originalSpeed = speed;
     }
 
     private void FixedUpdate()
     {
         canSeePlayer = Physics2D.OverlapBox(detectionPlayer.transform.position, lineOfSite, 0, playerLayer);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
     }
 
 
     void Update()
     {
-        if (!frozenEnemy && isAnInvoker)
+        if (!frozenEnemy && isAnInvoker && hp > 0)
         {
             if (canSeePlayer)
             {
@@ -80,47 +93,50 @@ public class Enemy : MonoBehaviour
                 if (invokeTimer >= timeForInvoke)
                 {
                     Instantiate(bombPrefab, firingPoint.position, transform.rotation);
+                    anim.SetBool("Invoker Attack", true);
+                    timeForInvoke = Random.Range(0.25f, 1.5f);
                     invokeTimer = 0;
-                    //bombsInvoked++;
                 }
-                    //speed = originalSpeed;
-                    /*speed = 0;
-                    transform.Translate(Vector2.right * speed * Time.deltaTime);
-                    RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, 0.1f);
-                    Debug.DrawRay(groundDetection.position, Vector2.down, Color.white);
+            }
+        }        
 
-                    if (groundInfo.collider == false)
-                    {
-                        Flip();
-                    }*/
-                }
-            }        
-
-        if (!frozenEnemy && isABomb)
+        if (!frozenEnemy && isABomb && hp > 0)
         {
-            transform.Translate(Vector2.right * speed * Time.deltaTime);
-            Destroy(gameObject, 3);            
+            if (transform.rotation.y == 0)
+            {
+                rb.velocity = new Vector2(300 * speed * Time.deltaTime, rb.velocity.y);
+            }
+            else
+            {
+                rb.velocity = new Vector2(-300 * speed * Time.deltaTime, rb.velocity.y);
+            }            
+
+            transform.Rotate(0, 0, 200 * Time.deltaTime);        
         }
 
-        if (!frozenEnemy && isAShooter)
+        if (!frozenEnemy && isAShooter && hp > 0)
         {
             if (canSeePlayer)
             {
                 timeForShoot += Time.deltaTime;
                 timeForJump += Time.deltaTime;
 
+
                 if (timeForShoot >= timeBetweenRock)
                 {
+                    anim.SetBool("Attack", true);
                     Instantiate(rock, firingPoint.position, transform.rotation);
                     timeForShoot = 0;
-                    timeBetweenRock = Random.Range(0.25f, 1);
+                    timeBetweenRock = Random.Range(0.25f, 1.25f);                    
                 }
 
-                if (timeForJump >= timeBetweenJump)
+
+                if (isGrounded && (timeForJump >= timeBetweenJump))
                 {
+                    isGrounded = false;
                     rb.velocity = Vector2.up * jumpForce;
                     timeForJump = 0;
-                    timeBetweenJump = Random.Range(1.5f, 5);
+                    timeBetweenJump = Random.Range(0.25f, 2.5f);
                 }
             }
             else
@@ -133,11 +149,11 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        if (!frozenEnemy && isAChaser)
+        if (!frozenEnemy && isAChaser && hp > 0)
         {
             transform.Translate(Vector2.right * speed * Time.deltaTime);
             RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, 0.1f);
-            alert.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.35f, this.transform.position.z);
+            alert.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.7f, this.transform.position.z);
             Debug.DrawRay(groundDetection.position, Vector2.down, Color.white);
 
             if (groundInfo.collider == false)
@@ -150,23 +166,31 @@ public class Enemy : MonoBehaviour
                 chasetimer += Time.deltaTime;
                 speed = 0;
                 alert.gameObject.SetActive(true);
+                anim.SetBool("Start Chasing", true);
 
                 if (chasetimer >= timeToStartChasing)
                 {
                     speed = speedWhenPlayerSpotted;
                     alert.gameObject.SetActive(false);
-                }           
+                    anim.SetBool("Run", true);
+                }
             }
             else
             {
                 chasetimer = 0;
                 speed = originalSpeed;
                 alert.gameObject.SetActive(false);
+                anim.SetBool("Start Chasing", false);
+                anim.SetBool("Run", false);
             }
         }
 
-        if (frozenEnemy)
+        if (frozenEnemy && hp > 0 && !isABomb)
         {
+            anim.enabled = false;
+            freezingSpikes.SetActive(true);
+            spriteHurt.color = new Color(83, 204, 255, 255);
+
             frozenTime += Time.deltaTime;
             if(frozenTime >= frozenMaxTime)
             {
@@ -174,31 +198,86 @@ public class Enemy : MonoBehaviour
                 frozenTime = 0;
             }
         }
+        else
+        {
+            anim.enabled = true;
+            freezingSpikes.SetActive(false);
+        }
+
+        if (spriteHurt.color == new Color(255, 0, 0, 255)) //color red
+        {
+            resetHurt += Time.deltaTime;
+            if (resetHurt >= 0.15f)
+            {
+                spriteHurt.color = new Color(255, 255, 255, 255); //color white
+                resetHurt = 0;
+            }
+        }
+
+        if (isAShooter && isGrounded && hp <= 0)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
     }
-    
 
     void OnCollisionEnter2D(Collision2D other)
     {
         //collision bullet vs enemy
         if (other.gameObject.tag.Equals("FireBall"))
         {
-            hp--; //Enemy -1 hp
-            if (hp <= 0)
+            hp = hp - 1;
+            if(!isABomb)spriteHurt.color = new Color(255, 0, 0, 255);
+
+            if (isAChaser)
             {
-                Destroy(gameObject); //Enemy die
-                Destroy(alert.gameObject);
+                if (!canSeePlayer && !frozenEnemy)
+                {
+                    Flip();
+                }
+
+                if(hp <= 0)
+                {
+                    anim.SetBool("Death", true);
+                    boxCol1.enabled = false;
+                    boxCol2.enabled = false;
+                    rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                    Destroy(alert.gameObject);
+                }
+                
             }
 
-            if (isAChaser && !canSeePlayer && !frozenEnemy)
+            if (isAShooter && hp <= 0)
             {
-                Flip();
+                anim.SetBool("Death", true);
+                boxCol1.enabled = false;
+                boxCol2.enabled = false;
             }
-        }
+
+            if (isAnInvoker && hp <= 0)
+            {
+                anim.SetBool("Invoker Death", true);
+                boxCol1.enabled = false;
+                boxCol2.enabled = false;
+                rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            }
+
+            if (isABomb && hp <= 0)
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+                anim.SetBool("Explosion", true);
+            }
+        }        
 
         //collision orb vs enemy
         if (other.gameObject.tag.Equals("Orb"))
         {
-            frozenEnemy = true;            
+            frozenEnemy = true;
+
+            if (isABomb)
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+                anim.SetBool("Explosion", true);
+            }
         }
 
         //collision enemy vs enemy or wall
@@ -211,9 +290,31 @@ public class Enemy : MonoBehaviour
 
             if (!frozenEnemy && isABomb)
             {
-                Destroy(gameObject);
+                rb.velocity = new Vector2(0, rb.velocity.y);
+                anim.SetBool("Explosion", true);
             }
-        }        
+        }
+
+        if (other.gameObject.tag.Equals("Player") && isABomb)
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            anim.SetBool("Explosion", true);
+        }
+    }
+
+    void EnemyDie()
+    {
+        Destroy(gameObject);
+    }
+
+    void ResetAttack()
+    {
+        anim.SetBool("Attack", false);
+    }
+
+    void ResetInvokerAttack()
+    {
+        anim.SetBool("Invoker Attack", false);
     }
 
     void OnTriggerEnter2D(Collider2D other)

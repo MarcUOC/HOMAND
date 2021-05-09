@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
     public Sprite fullHeart;
     public Camera cameraView;
     public Image timerBar;
+    public float resetHurt;
+    private SpriteRenderer spriteHurt;
 
     //PLAYER FIREBALL
     [Header("PLAYER FIREBALL")]    
@@ -57,6 +59,7 @@ public class Player : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        spriteHurt = GetComponent<SpriteRenderer>();
     }
 
     void FixedUpdate()
@@ -165,6 +168,16 @@ public class Player : MonoBehaviour
             cameraView.orthographicSize = cameraView.orthographicSize - 1f * Time.deltaTime;
             anim.SetBool("Death", true);
         }
+
+        if (spriteHurt.color == new Color(255, 0, 0, 255)) //color red
+        {
+            resetHurt += Time.deltaTime;
+            if (resetHurt >= 0.15f)
+            {
+                spriteHurt.color = new Color(255, 255, 255, 255); //color white
+                resetHurt = 0;
+            }
+        }
     }
 
     //DEAD
@@ -181,6 +194,12 @@ public class Player : MonoBehaviour
                health--;
            }*/
         //else { anim.SetBool("Hurt", false); }
+
+        /*if (collision.gameObject.tag.Equals("Rock"))
+        {
+            health--;
+            spriteHurt.color = new Color(255, 0, 0, 255);
+        }*/
 
         if (collision.gameObject.tag.Equals("MovingPlatform"))
         {
@@ -203,10 +222,11 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene("Game");
         }
 
-        if (other.gameObject.tag.Equals("Enemy") || other.gameObject.tag.Equals("Rock") || other.gameObject.tag.Equals("Trap"))
+        if (other.gameObject.tag.Equals("Enemy") || other.gameObject.tag.Equals("Trap") || other.gameObject.tag.Equals("Rock"))
         {
             //anim.SetBool("Hurt", true);
             health--;
+            spriteHurt.color = new Color(255, 0, 0, 255);
         }
 
 

@@ -13,7 +13,6 @@ public class FireBall : MonoBehaviour
 
     private void Update()
     {
-        //Assign velocity to arrow
         rb.velocity = transform.right * FireBallSpeed;
         Destroy(gameObject, 3);
     }

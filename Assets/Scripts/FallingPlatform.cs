@@ -9,8 +9,9 @@ public class FallingPlatform : MonoBehaviour
     public float timerMaxForFalling;
     public float timerForReset;
     public bool isTriggered;
+    public GameObject particleSystem;
     
-    private Vector3 startPos;
+    public Vector3 startPos;
 
     // Start is called before the first frame update
     void Start()
@@ -25,23 +26,28 @@ public class FallingPlatform : MonoBehaviour
         if (isTriggered)
         {
             timerForFalling += Time.deltaTime;
-        }
+            particleSystem.SetActive(true);
 
-        if (timerForFalling >= timerMaxForFalling)
+            if (timerForFalling >= timerMaxForFalling)
+            {
+                rb.gravityScale = 1f;
+            }
+        }
+        else
         {
-            rb.gravityScale = 1;
+            particleSystem.SetActive(false);
         }
-
-        if (rb.gravityScale >= 1)
+        
+        if (rb.gravityScale >= 1f)
         {
             timerForReset += Time.deltaTime;
             
-            if (timerForReset >= 4)
+            if (timerForReset >= 2)
             {
                 transform.position = startPos;
-                rb.gravityScale = 0;
+                rb.gravityScale = 0;            
                 timerForFalling = 0;
-                timerForReset = 0;
+                timerForReset = 0;                
             }
         }
     }
