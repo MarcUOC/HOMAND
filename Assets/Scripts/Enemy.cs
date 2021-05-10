@@ -60,6 +60,8 @@ public class Enemy : MonoBehaviour
     public BoxCollider2D boxCol1;
     public BoxCollider2D boxCol2;
     public GameObject freezingSpikes;
+
+    [Header("BOSS")]
     public bool isABoss;
     public float timerBoss;
 
@@ -89,11 +91,23 @@ public class Enemy : MonoBehaviour
                 invokeTimer += Time.deltaTime;
 
                 if (invokeTimer >= timeForInvoke)
-                {
-                    Instantiate(bombPrefab, firingPoint.position, transform.rotation);
-                    anim.SetBool("Invoker Attack", true);
-                    timeForInvoke = Random.Range(0.25f, 1.25f);
-                    invokeTimer = 0;
+                {                    
+                    if (!isABoss)
+                    {
+                        anim.SetBool("Invoker Attack", true);
+                        Instantiate(bombPrefab, firingPoint.position, transform.rotation);
+                        timeForInvoke = Random.Range(0.4f, 1f);
+                        invokeTimer = 0;
+                    }
+                    if (isABoss)
+                    {
+                        anim.SetBool("Boss Attack",true);
+                        Instantiate(bombPrefab, firingPoint.position, transform.rotation);
+                        invokeTimer = 0;
+                    }
+                    /*Instantiate(bombPrefab, firingPoint.position, transform.rotation);
+                    timeForInvoke = Random.Range(0.4f, 1f);
+                    invokeTimer = 0;*/
                 }
             }
         }        
@@ -119,15 +133,25 @@ public class Enemy : MonoBehaviour
                 timeForShoot += Time.deltaTime;
                 timeForJump += Time.deltaTime;
 
-
                 if (timeForShoot >= timeBetweenRock)
                 {
-                    anim.SetBool("Attack", true);
-                    Instantiate(rock, firingPoint.position, transform.rotation);
+                    if (!isABoss)
+                    {
+                        anim.SetBool("Attack", true);
+                        Instantiate(rock, firingPoint.position, transform.rotation);
+                        timeForShoot = 0;
+                        timeBetweenRock = Random.Range(0.4f, 1f);
+                    }
+                    if (isABoss)
+                    {
+                        anim.SetBool("Boss Attack", true);
+                        Instantiate(rock, firingPoint.position, transform.rotation);
+                        timeForShoot = 0;
+                    }
+                    /*Instantiate(rock, firingPoint.position, transform.rotation);
                     timeForShoot = 0;
-                    timeBetweenRock = Random.Range(0.25f, 1.25f);                    
+                    timeBetweenRock = Random.Range(0.4f, 1f);                  */
                 }
-
 
                 if (isGrounded && (timeForJump >= timeBetweenJump))
                 {
@@ -139,6 +163,7 @@ public class Enemy : MonoBehaviour
             }
             else
             {
+                if (isABoss) { anim.SetBool("Boss Idle", true); }
                 timeForShoot = 0;
                 flipTimer += Time.deltaTime;
                 if (flipTimer <= timeForFlip) { transform.eulerAngles = new Vector3(0, -180, 0); }
@@ -164,13 +189,15 @@ public class Enemy : MonoBehaviour
                 chasetimer += Time.deltaTime;
                 speed = 0;
                 alert.gameObject.SetActive(true);
-                anim.SetBool("Start Chasing", true);
+                if (!isABoss) { anim.SetBool("Start Chasing", true); }
+                if (isABoss) { anim.SetBool("Boss Idle", true); }
 
                 if (chasetimer >= timeToStartChasing)
                 {
                     speed = speedWhenPlayerSpotted;
                     alert.gameObject.SetActive(false);
-                    anim.SetBool("Run", true);
+                    if (!isABoss) { anim.SetBool("Run", true); }
+                    if (isABoss) { anim.SetBool("Boss Run", true); }
                 }
             }
             else
@@ -178,8 +205,8 @@ public class Enemy : MonoBehaviour
                 chasetimer = 0;
                 speed = originalSpeed;
                 alert.gameObject.SetActive(false);
-                anim.SetBool("Start Chasing", false);
-                anim.SetBool("Run", false);
+                if (!isABoss) { anim.SetBool("Start Chasing", false); anim.SetBool("Run", false); }
+                if (isABoss) { anim.SetBool("Boss Idle", false); anim.SetBool("Boss Run", false); }
             }
         }
         
@@ -244,7 +271,7 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        if (isAShooter && isGrounded && hp <= 0)
+        if ((isAShooter || isABoss) && isGrounded && hp <= 0)
         {
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
@@ -258,7 +285,7 @@ public class Enemy : MonoBehaviour
             hp = hp - 1;
             if(!isABomb)spriteHurt.color = new Color(255, 0, 0, 255);
 
-            if (isAChaser)
+            if (isAChaser && !isABoss)
             {
                 if (!canSeePlayer && !frozenEnemy)
                 {
@@ -276,14 +303,14 @@ public class Enemy : MonoBehaviour
                 
             }
 
-            if (isAShooter && hp <= 0)
+            if (isAShooter && hp <= 0 && !isABoss)
             {
                 anim.SetBool("Death", true);
                 boxCol1.enabled = false;
                 boxCol2.enabled = false;
             }
 
-            if (isAnInvoker && hp <= 0)
+            if (isAnInvoker && hp <= 0 && !isABoss)
             {
                 anim.SetBool("Invoker Death", true);
                 boxCol1.enabled = false;
@@ -295,6 +322,13 @@ public class Enemy : MonoBehaviour
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
                 anim.SetBool("Explosion", true);
+            }
+
+            if (isABoss && hp <= 0)
+            {
+                anim.SetBool("Boss Death", true);
+                boxCol1.enabled = false;
+                boxCol2.enabled = false;
             }
         }        
 
@@ -339,13 +373,15 @@ public class Enemy : MonoBehaviour
 
     void ResetAttack()
     {
-        anim.SetBool("Attack", false);
+        if (isAShooter && !isABoss) { anim.SetBool("Attack", false); }
+        if (isAnInvoker && !isABoss) { anim.SetBool("Invoker Attack", false); }
+        if (isABoss) { anim.SetBool("Boss Attack", false);  }        
     }
 
-    void ResetInvokerAttack()
+    /*void ResetInvokerAttack()
     {
         anim.SetBool("Invoker Attack", false);
-    }
+    }*/
 
     void OnTriggerEnter2D(Collider2D other)
     {

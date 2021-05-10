@@ -28,7 +28,7 @@ public class CameraPlayer : MonoBehaviour
             transform.position = new Vector3(Mathf.Clamp(posCamX, minCamPositionZone2.x, maxCamPositionZone2.x), Mathf.Clamp(posCamY, minCamPositionZone2.y, maxCamPositionZone2.y), transform.position.z);
         }
 
-        if (followPlayer.transform.position.x > 174.5f)
+        if (followPlayer.transform.position.x > 173.8f)
         {
             transform.position = new Vector3(Mathf.Clamp(posCamX, minCamPositionZone3.x, maxCamPositionZone3.x), Mathf.Clamp(posCamY, minCamPositionZone3.y, maxCamPositionZone3.y), transform.position.z);
         }
