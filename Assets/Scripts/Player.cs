@@ -217,19 +217,12 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag.Equals("Die"))
-        {
-            SceneManager.LoadScene("Game");
-        }
-
         if (other.gameObject.tag.Equals("Enemy") || other.gameObject.tag.Equals("Trap") || other.gameObject.tag.Equals("Rock"))
         {
             //anim.SetBool("Hurt", true);
             health--;
             spriteHurt.color = new Color(255, 0, 0, 255);
         }
-
-
     }
 
     void playerDirection()

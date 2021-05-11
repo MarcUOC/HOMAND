@@ -299,8 +299,15 @@ public class Enemy : MonoBehaviour
                     boxCol2.enabled = false;
                     rb.constraints = RigidbodyConstraints2D.FreezeAll;
                     Destroy(alert.gameObject);
+                }                
+            }
+
+            if (isAChaser && isABoss)
+            {
+                if (!canSeePlayer && !frozenEnemy)
+                {
+                    Flip();
                 }
-                
             }
 
             if (isAShooter && hp <= 0 && !isABoss)
