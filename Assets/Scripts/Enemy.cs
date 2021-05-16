@@ -116,11 +116,11 @@ public class Enemy : MonoBehaviour
         {
             if (transform.rotation.y == 0)
             {
-                rb.velocity = new Vector2(300 * speed * Time.deltaTime, rb.velocity.y);
+                rb.velocity = new Vector2(200 * speed * Time.deltaTime, rb.velocity.y);
             }
             else
             {
-                rb.velocity = new Vector2(-300 * speed * Time.deltaTime, rb.velocity.y);
+                rb.velocity = new Vector2(-200 * speed * Time.deltaTime, rb.velocity.y);
             }            
 
             transform.Rotate(0, 0, 200 * Time.deltaTime);        

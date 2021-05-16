@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
 
     //PLAYER ANIMATOR
     private Animator anim;
+    public AudioSource soundFire;
 
 
     void Start()
@@ -102,11 +103,12 @@ public class Player : MonoBehaviour
             anim.SetBool("Jump", false);
         }
 
-        //THROW ARROWS
+        //THROW FIRE
         if (Input.GetButtonDown("Fire3") && timeUntilFire < Time.time)
         {
             Attack();
             anim.SetBool("Attack", true);
+            
         }
         else
         {
@@ -278,6 +280,7 @@ public class Player : MonoBehaviour
         float angle = isFacingRight ? 0f : 180f;
         Instantiate(fireballPrefab, firingPoint.position, Quaternion.Euler(new Vector3(0f, 0f, angle)));
         timeUntilFire = Time.time + timeBetweenFireBall;
+        soundFire.Play();
     }
 
     //Call in the animator

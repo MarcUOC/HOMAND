@@ -57,6 +57,12 @@ public class PauseMenu : MonoBehaviour
     //Exit game
     public void Quit()
     {
+        Debug.Log("QUIT");
         Application.Quit();
+    }
+
+    public void setFullScreen(bool isFullscreen)
+    {
+        Screen.fullScreen = isFullscreen;
     }
 }

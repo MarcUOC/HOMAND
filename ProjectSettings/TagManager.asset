@@ -12,6 +12,8 @@ TagManager:
   - FireBall
   - Trap
   - MovingPlatform
+  - Music
+  - Sound Effect
   layers:
   - Default
   - TransparentFX

@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 1
-  speed: 1.5
+  speed: 1
   frozenEnemy: 0
   frozenTime: 0
   frozenMaxTime: 3
@@ -297,6 +297,8 @@ MonoBehaviour:
   boxCol1: {fileID: 0}
   boxCol2: {fileID: 0}
   freezingSpikes: {fileID: 1233720283151488323}
+  isABoss: 0
+  timerBoss: 0
 --- !u!1 &7918847286863095156
 GameObject:
   m_ObjectHideFlags: 0
