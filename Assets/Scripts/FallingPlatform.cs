@@ -10,6 +10,8 @@ public class FallingPlatform : MonoBehaviour
     public float timerForReset;
     public bool isTriggered;
     public GameObject particleSys;
+    public BoxCollider2D boxCol1;
+    public BoxCollider2D boxCol2;
     
     public Vector3 startPos;
 
@@ -31,6 +33,7 @@ public class FallingPlatform : MonoBehaviour
             if (timerForFalling >= timerMaxForFalling)
             {
                 rb.gravityScale = 0.5f;
+                rb.constraints = RigidbodyConstraints2D.None;
             }
         }
         else
@@ -42,12 +45,21 @@ public class FallingPlatform : MonoBehaviour
         {
             timerForReset += Time.deltaTime;
 
-            if (timerForReset >= 2)
+            if (timerForReset >= 0.3f)
             {
+                boxCol1.enabled = false;
+                boxCol2.enabled = false;
+            }
+
+            if (timerForReset >= 2.5f)
+            {                
                 transform.position = startPos;
-                rb.gravityScale = 0;                
+                rb.gravityScale = 0;
+                rb.constraints = RigidbodyConstraints2D.FreezeAll;
                 timerForReset = 0;
                 timerForFalling = 0;
+                boxCol1.enabled = true;
+                boxCol2.enabled = true;
             }
         }        
     }

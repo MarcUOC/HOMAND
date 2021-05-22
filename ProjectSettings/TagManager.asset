@@ -13,7 +13,8 @@ TagManager:
   - Trap
   - MovingPlatform
   - Music
-  - Sound Effect
+  - Final
+  - Bomb
   layers:
   - Default
   - TransparentFX

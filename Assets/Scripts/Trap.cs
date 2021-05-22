@@ -73,7 +73,7 @@ public class Trap : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (this.name == "Spike_Trap")
+        if (gameObject.name == "Spike_Trap")
         {
             Destroy(gameObject);
         }
@@ -84,9 +84,4 @@ public class Trap : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(detectionPlayer.transform.position, lineOfSite);
     }
-
-    /*void CreateLava()
-    {
-        Instantiate(lava, lavaCreator.position, transform.rotation);
-    }*/
 }

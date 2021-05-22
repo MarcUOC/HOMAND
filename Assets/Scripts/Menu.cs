@@ -9,7 +9,19 @@ public class Menu : MonoBehaviour
     //Go to game scene
     public void PlayGame() 
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene("Game");
+    }
+
+    //Return to main menu
+    public void FinalGame()
+    {
+        SceneManager.LoadScene("Menu");
+    }
+
+    //Full Screen
+    public void setFullScreen(bool isFullscreen)
+    {
+        Screen.fullScreen = isFullscreen;
     }
 
     //Quit Game
@@ -18,5 +30,4 @@ public class Menu : MonoBehaviour
         Debug.Log("QUIT GAME");
         Application.Quit();
     }
-
 }

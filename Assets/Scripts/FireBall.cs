@@ -5,10 +5,12 @@ public class FireBall : MonoBehaviour
     public float FireBallSpeed;
     public Rigidbody2D rb;
     public Animator anim;
+    private BoxCollider2D boxCol;
 
     private void Start()
     {
         anim = GetComponent<Animator>();
+        boxCol = GetComponent<BoxCollider2D>();
     }
 
     private void Update()
@@ -20,6 +22,7 @@ public class FireBall : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         anim.SetBool("Destroy FireBall", true);
+        boxCol.enabled = false;
         FireBallSpeed = 0;
     }
 

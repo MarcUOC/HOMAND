@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
     [Header("ALL ENEMIES")]
-    public int hp;
+    public float hp;
     public float speed;
     public bool frozenEnemy;
     public float frozenTime;
@@ -64,6 +65,10 @@ public class Enemy : MonoBehaviour
     [Header("BOSS")]
     public bool isABoss;
     public float timerBoss;
+    public GameObject finalDoor;
+    public Image healthBar;
+    public float maxHealthBoss;
+
 
 
     private void Start()
@@ -96,7 +101,7 @@ public class Enemy : MonoBehaviour
                     {
                         anim.SetBool("Invoker Attack", true);
                         Instantiate(bombPrefab, firingPoint.position, transform.rotation);
-                        timeForInvoke = Random.Range(0.4f, 1f);
+                        timeForInvoke = Random.Range(0.5f, 1.5f);
                         invokeTimer = 0;
                     }
                     if (isABoss)
@@ -105,25 +110,23 @@ public class Enemy : MonoBehaviour
                         Instantiate(bombPrefab, firingPoint.position, transform.rotation);
                         invokeTimer = 0;
                     }
-                    /*Instantiate(bombPrefab, firingPoint.position, transform.rotation);
-                    timeForInvoke = Random.Range(0.4f, 1f);
-                    invokeTimer = 0;*/
                 }
             }
         }        
 
         if (!frozenEnemy && isABomb && hp > 0)
         {
-            if (transform.rotation.y == 0)
+            transform.Translate(Vector2.right * speed * Time.deltaTime);
+            //transform.Rotate(new Vector3(0, 0, 100f) * Time.deltaTime);
+
+            /*if (transform.rotation.y == 0)
             {
-                rb.velocity = new Vector2(200 * speed * Time.deltaTime, rb.velocity.y);
+                transform.Translate(Vector3.right * Time.deltaTime);
             }
             else
             {
-                rb.velocity = new Vector2(-200 * speed * Time.deltaTime, rb.velocity.y);
-            }            
-
-            transform.Rotate(0, 0, 200 * Time.deltaTime);        
+                
+            }  */      
         }
 
         if (!frozenEnemy && isAShooter && hp > 0)
@@ -209,6 +212,10 @@ public class Enemy : MonoBehaviour
                 if (isABoss) { anim.SetBool("Boss Idle", false); anim.SetBool("Boss Run", false); }
             }
         }
+        else if (frozenEnemy && isAChaser && hp > 0)
+        {
+            alert.gameObject.SetActive(false);
+        }
         
         if (!frozenEnemy && isABoss && hp > 0)
         {
@@ -259,6 +266,16 @@ public class Enemy : MonoBehaviour
         {
             anim.enabled = true;
             freezingSpikes.SetActive(false);
+        }        
+
+        if ((isAShooter || isABoss) && isGrounded && hp <= 0)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+
+        if (isABoss)
+        {
+            healthBar.fillAmount = hp / maxHealthBoss;
         }
 
         if (spriteHurt.color == new Color(255, 0, 0, 255)) //color red
@@ -270,11 +287,6 @@ public class Enemy : MonoBehaviour
                 resetHurt = 0;
             }
         }
-
-        if ((isAShooter || isABoss) && isGrounded && hp <= 0)
-        {
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        }
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -283,7 +295,11 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.tag.Equals("FireBall"))
         {
             hp = hp - 1;
-            if(!isABomb)spriteHurt.color = new Color(255, 0, 0, 255);
+
+            if (!isABomb)
+            {
+                spriteHurt.color = new Color(255, 0, 0, 255);
+            }
 
             if (isAChaser && !isABoss)
             {
@@ -327,7 +343,8 @@ public class Enemy : MonoBehaviour
 
             if (isABomb && hp <= 0)
             {
-                rb.velocity = new Vector2(0, rb.velocity.y);
+                rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                boxCol1.enabled = false;
                 anim.SetBool("Explosion", true);
             }
 
@@ -336,6 +353,7 @@ public class Enemy : MonoBehaviour
                 anim.SetBool("Boss Death", true);
                 boxCol1.enabled = false;
                 boxCol2.enabled = false;
+                finalDoor.SetActive(true);
             }
         }        
 
@@ -346,7 +364,8 @@ public class Enemy : MonoBehaviour
 
             if (isABomb)
             {
-                rb.velocity = new Vector2(0, rb.velocity.y);
+                rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                boxCol1.enabled = false;
                 anim.SetBool("Explosion", true);
             }
         }
@@ -361,14 +380,18 @@ public class Enemy : MonoBehaviour
 
             if (!frozenEnemy && isABomb)
             {
-                rb.velocity = new Vector2(0, rb.velocity.y);
+                hp = 0;
+                rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                boxCol1.enabled = false;
                 anim.SetBool("Explosion", true);
             }
         }
 
         if (other.gameObject.tag.Equals("Player") && isABomb)
         {
-            rb.velocity = new Vector2(0, rb.velocity.y);
+            hp = 0;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            boxCol1.enabled = false;
             anim.SetBool("Explosion", true);
         }
     }
@@ -384,11 +407,6 @@ public class Enemy : MonoBehaviour
         if (isAnInvoker && !isABoss) { anim.SetBool("Invoker Attack", false); }
         if (isABoss) { anim.SetBool("Boss Attack", false);  }        
     }
-
-    /*void ResetInvokerAttack()
-    {
-        anim.SetBool("Invoker Attack", false);
-    }*/
 
     void OnTriggerEnter2D(Collider2D other)
     {

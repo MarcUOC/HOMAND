@@ -92,13 +92,13 @@ GameObject:
   - component: {fileID: 1608155275416175009}
   - component: {fileID: 1608155275416175008}
   - component: {fileID: 1608155275416175015}
-  - component: {fileID: 23940295}
-  - component: {fileID: 23940296}
   - component: {fileID: 7132051805866249135}
   - component: {fileID: 1608155275416175013}
+  - component: {fileID: 4060193977581069352}
+  - component: {fileID: 4343059132465077042}
   m_Layer: 0
   m_Name: MiniBomb
-  m_TagString: Rock
+  m_TagString: Bomb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,7 +111,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1608155275416175012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.95, y: -2.4, z: 1}
+  m_LocalPosition: {x: -22.95, y: -2.4148, z: 1}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children:
   - {fileID: 420658674487278446}
@@ -181,7 +181,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 50
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -189,39 +189,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!58 &23940295
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1608155275416175012}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.3251746
---- !u!58 &23940296
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1608155275416175012}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.32517457
+  m_Constraints: 4
 --- !u!95 &7132051805866249135
 Animator:
   serializedVersion: 3
@@ -254,7 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 1
-  speed: 1
+  speed: 2
   frozenEnemy: 0
   frozenTime: 0
   frozenMaxTime: 3
@@ -294,11 +262,66 @@ MonoBehaviour:
   timeForInvoke: 0
   isABomb: 1
   anim: {fileID: 0}
-  boxCol1: {fileID: 0}
+  boxCol1: {fileID: 4060193977581069352}
   boxCol2: {fileID: 0}
   freezingSpikes: {fileID: 1233720283151488323}
   isABoss: 0
   timerBoss: 0
+  finalDoor: {fileID: 0}
+  healthBar: {fileID: 0}
+  maxHealthBoss: 0
+--- !u!61 &4060193977581069352
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608155275416175012}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0.46875, y: 0.375, z: 0.46875, w: 0.5625}
+    pivot: {x: 0.5, y: 0.4}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 0.32, y: 0.32}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.48576355, y: 0.57926494}
+  m_EdgeRadius: 0
+--- !u!61 &4343059132465077042
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608155275416175012}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0.46875, y: 0.375, z: 0.46875, w: 0.5625}
+    pivot: {x: 0.5, y: 0.4}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 0.32, y: 0.32}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.48576355, y: 0.57926494}
+  m_EdgeRadius: 0
 --- !u!1 &7918847286863095156
 GameObject:
   m_ObjectHideFlags: 0

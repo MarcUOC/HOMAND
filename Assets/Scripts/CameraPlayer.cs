@@ -18,12 +18,12 @@ public class CameraPlayer : MonoBehaviour
         float posCamX = Mathf.SmoothDamp(transform.position.x, followPlayer.transform.position.x, ref velocity.x, smoothTime);
         float posCamY = Mathf.SmoothDamp(transform.position.y, followPlayer.transform.position.y, ref velocity.y, smoothTime);
 
-        if (followPlayer.transform.position.x < 76f)
+        if (followPlayer.transform.position.x < 73.5f)
         {
             transform.position = new Vector3(Mathf.Clamp(posCamX, minCamPositionZone1.x, maxCamPositionZone1.x), Mathf.Clamp(posCamY, minCamPositionZone1.y, maxCamPositionZone1.y), transform.position.z);
         }
 
-        if (followPlayer.transform.position.x > 76f)
+        if (followPlayer.transform.position.x > 73.5f)
         {
             transform.position = new Vector3(Mathf.Clamp(posCamX, minCamPositionZone2.x, maxCamPositionZone2.x), Mathf.Clamp(posCamY, minCamPositionZone2.y, maxCamPositionZone2.y), transform.position.z);
         }

@@ -54,6 +54,7 @@ public class Player : MonoBehaviour
     //PLAYER ANIMATOR
     private Animator anim;
     public AudioSource soundFire;
+    public AudioSource soundJump;
 
 
     void Start()
@@ -79,6 +80,7 @@ public class Player : MonoBehaviour
         {
             rb.velocity = Vector2.up * jumpForce;
             doubleJump = true;
+            soundJump.Play();
         }
 
         //DOUBLE JUMP
@@ -87,6 +89,7 @@ public class Player : MonoBehaviour
             rb.velocity = Vector2.up * jumpForce;
             doubleJump = false;
             anim.SetBool("Double Jump", true);
+            soundJump.Play();
         }
         else
         {
@@ -107,8 +110,7 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Fire3") && timeUntilFire < Time.time)
         {
             Attack();
-            anim.SetBool("Attack", true);
-            
+            anim.SetBool("Attack", true);           
         }
         else
         {
@@ -185,27 +187,16 @@ public class Player : MonoBehaviour
     //DEAD
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        /*   if (collision.gameObject.tag.Equals("Die"))
-           {
-               SceneManager.LoadScene("Game");
-           }
 
-           if (collision.gameObject.tag.Equals("Enemy") || collision.gameObject.tag.Equals("Rock") || collision.gameObject.tag.Equals("Trap"))
-           {
-               //anim.SetBool("Hurt", true);
-               health--;
-           }*/
-        //else { anim.SetBool("Hurt", false); }
-
-        /*if (collision.gameObject.tag.Equals("Rock"))
-        {
-            health--;
-            spriteHurt.color = new Color(255, 0, 0, 255);
-        }*/
 
         if (collision.gameObject.tag.Equals("MovingPlatform"))
         {
             transform.parent = collision.transform;
+        }
+
+        if (collision.gameObject.tag.Equals("Final"))
+        {
+            SceneManager.LoadScene("Final");
         }
     }
 
@@ -215,14 +206,19 @@ public class Player : MonoBehaviour
         {
             transform.parent = null;
         }
+
+        /*if (collision.gameObject.tag.Equals("Enemy") || collision.gameObject.tag.Equals("Trap") || collision.gameObject.tag.Equals("Rock") || collision.gameObject.tag.Equals("Bomb"))
+        {
+            health = health - 1;
+            spriteHurt.color = new Color(255, 0, 0, 255);
+        }*/
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag.Equals("Enemy") || other.gameObject.tag.Equals("Trap") || other.gameObject.tag.Equals("Rock"))
+        if (other.gameObject.tag.Equals("Enemy") || other.gameObject.tag.Equals("Trap") || other.gameObject.tag.Equals("Rock") || other.gameObject.tag.Equals("Bomb"))
         {
-            //anim.SetBool("Hurt", true);
-            health--;
+            health = health - 1;
             spriteHurt.color = new Color(255, 0, 0, 255);
         }
     }
