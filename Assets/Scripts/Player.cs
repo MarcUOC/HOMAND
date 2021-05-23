@@ -59,6 +59,7 @@ public class Player : MonoBehaviour
     private Animator anim;
     public AudioSource soundFire;
     public AudioSource soundJump;
+    public AudioSource soundOrb;
     public GameObject partycleOrbeReady;
 
 
@@ -153,7 +154,10 @@ public class Player : MonoBehaviour
                 float angle = isFacingRight ? 0f : 180f;
                 Instantiate(orbPrefab, firingPoint.position, Quaternion.Euler(new Vector3(0f, 0f, angle)));
                 orbIsOnCooldown = true;
+                anim.SetBool("Attack", true);
+                soundOrb.Play();
             }
+
 
             //ORB
             if (orbIsOnCooldown)
