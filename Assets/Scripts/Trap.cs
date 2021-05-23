@@ -17,6 +17,9 @@ public class Trap : MonoBehaviour
 
     public float lavaTimer;
     public float timerBetweenLavaDrop;
+    public float spikeTimer;
+    public float spikeTimerDown;
+    public GameObject partSystem;
         
 
     // Start is called before the first frame update
@@ -39,8 +42,18 @@ public class Trap : MonoBehaviour
         {
             if (canSeePlayer)
             {
-                rb.velocity = -transform.up * TrapSpeed;
-                Destroy(gameObject, 3);
+                spikeTimer += Time.deltaTime;
+                partSystem.SetActive(true);
+
+                if (spikeTimer >= spikeTimerDown)
+                {
+                    rb.velocity = -transform.up * TrapSpeed;
+                    partSystem.SetActive(false);
+                }                
+            }
+            else
+            {
+                partSystem.SetActive(false);
             }
         }
 

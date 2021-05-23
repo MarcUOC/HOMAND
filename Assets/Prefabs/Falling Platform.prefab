@@ -4906,6 +4906,7 @@ MonoBehaviour:
   timerForFalling: 0
   timerMaxForFalling: 1
   timerForReset: 0
+  timerMaxForReset: 2.5
   isTriggered: 0
   particleSys: {fileID: 541592940}
   boxCol1: {fileID: 2854463493515209638}

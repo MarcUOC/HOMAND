@@ -66,6 +66,8 @@ public class Enemy : MonoBehaviour
     public bool isABoss;
     public float timerBoss;
     public GameObject finalDoor;
+    public GameObject partSystemDoor;
+    public bool bossIsDeath;
     public Image healthBar;
     public float maxHealthBoss;
 
@@ -107,6 +109,7 @@ public class Enemy : MonoBehaviour
                     if (isABoss)
                     {
                         anim.SetBool("Boss Attack",true);
+                        anim.SetBool("Boss Walk", false);
                         Instantiate(bombPrefab, firingPoint.position, transform.rotation);
                         invokeTimer = 0;
                     }
@@ -148,12 +151,11 @@ public class Enemy : MonoBehaviour
                     if (isABoss)
                     {
                         anim.SetBool("Boss Attack", true);
+                        anim.SetBool("Boss Walk", false);
                         Instantiate(rock, firingPoint.position, transform.rotation);
+                        timeBetweenRock = Random.Range(0.25f, 0.5f);
                         timeForShoot = 0;
                     }
-                    /*Instantiate(rock, firingPoint.position, transform.rotation);
-                    timeForShoot = 0;
-                    timeBetweenRock = Random.Range(0.4f, 1f);                  */
                 }
 
                 if (isGrounded && (timeForJump >= timeBetweenJump))
@@ -166,8 +168,12 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                if (isABoss) { anim.SetBool("Boss Idle", true); }
-                timeForShoot = 0;
+                if (isABoss)
+                {
+                    anim.SetBool("Boss Idle", true);
+                }
+
+                //timeForShoot = 0;
                 flipTimer += Time.deltaTime;
                 if (flipTimer <= timeForFlip) { transform.eulerAngles = new Vector3(0, -180, 0); }
                 if (flipTimer > timeForFlip) { transform.eulerAngles = new Vector3(0, 0, 0); }
@@ -224,22 +230,32 @@ public class Enemy : MonoBehaviour
             {
                 isAChaser = true;
             }
+
             if (timerBoss > 10 && timerBoss < 20)
             {
-                isAShooter = true;
                 isAChaser = false;
+                isAShooter = true;
             }
-            if(timerBoss > 20 && timerBoss < 30)
+
+            if (timerBoss > 20 && timerBoss < 25)
             {
                 isAShooter = false;
+                isAChaser = true;
+            }
+
+            if (timerBoss > 25 && timerBoss < 35)
+            {
+                isAChaser = false;
                 isAnInvoker = true;
             }
-            if (timerBoss > 30)
+
+            if (timerBoss > 35)
             {
                 isAnInvoker = false;
                 isAChaser = true;
                 timerBoss = 0;
             }
+
             if (!canSeePlayer && isAnInvoker)
             {
                 flipTimer += Time.deltaTime;
@@ -253,7 +269,6 @@ public class Enemy : MonoBehaviour
         {
             anim.enabled = false;
             freezingSpikes.SetActive(true);
-            spriteHurt.color = new Color(83, 204, 255, 255);
 
             frozenTime += Time.deltaTime;
             if(frozenTime >= frozenMaxTime)
@@ -271,6 +286,17 @@ public class Enemy : MonoBehaviour
         if ((isAShooter || isABoss) && isGrounded && hp <= 0)
         {
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
+
+            if (bossIsDeath)
+            {
+                Color color = GetComponent<SpriteRenderer>().material.color;
+                color.a -= Time.deltaTime * 0.40f;
+                GetComponent<SpriteRenderer>().material.color = color;
+
+                partSystemDoor.transform.position = transform.position;
+                finalDoor.transform.position = transform.position;
+                partSystemDoor.SetActive(true);
+            }
         }
 
         if (isABoss)
@@ -353,7 +379,7 @@ public class Enemy : MonoBehaviour
                 anim.SetBool("Boss Death", true);
                 boxCol1.enabled = false;
                 boxCol2.enabled = false;
-                finalDoor.SetActive(true);
+                bossIsDeath = true;      
             }
         }        
 
@@ -401,6 +427,13 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
+    void BossDie()
+    {
+        partSystemDoor.SetActive(false);
+        finalDoor.SetActive(true);
+        Destroy(gameObject);
+    }
+
     void ResetAttack()
     {
         if (isAShooter && !isABoss) { anim.SetBool("Attack", false); }
@@ -419,7 +452,10 @@ public class Enemy : MonoBehaviour
             {
                 player.knockFromRight = true;
             }
-            else { player.knockFromRight = false; }
+            else
+            {
+                player.knockFromRight = false;
+            }
         }
     }
 

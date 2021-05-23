@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     public Image timerBar;
     public float resetHurt;
     private SpriteRenderer spriteHurt;
+    public GameObject triggerBossHP;
 
     //PLAYER FIREBALL
     [Header("PLAYER FIREBALL")]    
@@ -55,6 +56,7 @@ public class Player : MonoBehaviour
     private Animator anim;
     public AudioSource soundFire;
     public AudioSource soundJump;
+    public GameObject partycleOrbeReady;
 
 
     void Start()
@@ -98,7 +100,7 @@ public class Player : MonoBehaviour
 
         //IF PLAYER GROUNDED
         if (!isGrounded)
-        { 
+        {
             anim.SetBool("Jump", true);
         }
         else
@@ -122,12 +124,13 @@ public class Player : MonoBehaviour
         {
             float angle = isFacingRight ? 0f : 180f;
             Instantiate(orbPrefab, firingPoint.position, Quaternion.Euler(new Vector3(0f, 0f, angle)));
-            orbIsOnCooldown = true;
+            orbIsOnCooldown = true;            
         }
 
         //ORB
         if (orbIsOnCooldown)
         {
+            partycleOrbeReady.SetActive(false);
             timerForOrb += Time.deltaTime;
 
             if (timerForOrb >= cooldownForOrb)
@@ -140,7 +143,11 @@ public class Player : MonoBehaviour
         else
         {
             timerBar.fillAmount = 1;
+            partycleOrbeReady.SetActive(true);
         }
+
+        //ORB PARTICLE
+        particleOrbPosition();
 
         //HEARTS
         for (int i = 0; i < hearts.Length; i++)
@@ -152,7 +159,7 @@ public class Player : MonoBehaviour
             else
             {
                 hearts[i].sprite = fullHeart;
-                hearts[i].transform.localScale = new Vector2(0.4f, 0.4f);
+                hearts[i].transform.localScale = new Vector2(0.5f, 0.5f);
             }
 
             if (i < numOfHearts)
@@ -182,13 +189,25 @@ public class Player : MonoBehaviour
                 resetHurt = 0;
             }
         }
+
+        //GOD MODE
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            health = 8;
+            for (int i = 0; i < hearts.Length; i++)
+            {
+                if (i < health)
+                {
+                    hearts[i].sprite = fullHeart;
+                    hearts[i].transform.localScale = new Vector2(1f, 1f);
+                }
+            }
+        }
     }
 
     //DEAD
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
-
         if (collision.gameObject.tag.Equals("MovingPlatform"))
         {
             transform.parent = collision.transform;
@@ -221,6 +240,16 @@ public class Player : MonoBehaviour
             health = health - 1;
             spriteHurt.color = new Color(255, 0, 0, 255);
         }
+
+        if (other.gameObject.name == "TriggerBossHP")
+        {
+            triggerBossHP.SetActive(true);
+        }
+    }
+
+    void particleOrbPosition()
+    {
+        partycleOrbeReady.transform.position = new Vector3(transform.position.x, transform.position.y + 0.10f, transform.position.z);
     }
 
     void playerDirection()
@@ -230,11 +259,13 @@ public class Player : MonoBehaviour
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
             isFacingRight = true;
+            //partycleOrbeReady.transform.position = new Vector3(transform.position.x + 0.20f, transform.position.y, transform.position.z);
         }
         else if (moveInput < 0)
         {
             transform.eulerAngles = new Vector3(0, -180, 0);
             isFacingRight = false;
+            //partycleOrbeReady.transform.position = new Vector3(transform.position.x - 0.20f, transform.position.y, transform.position.z);
         }
 
         if (moveInput == 0)

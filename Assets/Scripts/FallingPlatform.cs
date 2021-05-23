@@ -8,6 +8,7 @@ public class FallingPlatform : MonoBehaviour
     public float timerForFalling;
     public float timerMaxForFalling;
     public float timerForReset;
+    public float timerMaxForReset;
     public bool isTriggered;
     public GameObject particleSys;
     public BoxCollider2D boxCol1;
@@ -45,13 +46,13 @@ public class FallingPlatform : MonoBehaviour
         {
             timerForReset += Time.deltaTime;
 
-            if (timerForReset >= 0.3f)
+            if (timerForReset >= 0.35f)
             {
                 boxCol1.enabled = false;
                 boxCol2.enabled = false;
             }
 
-            if (timerForReset >= 2.5f)
+            if (timerForReset >= timerMaxForReset)
             {                
                 transform.position = startPos;
                 rb.gravityScale = 0;
