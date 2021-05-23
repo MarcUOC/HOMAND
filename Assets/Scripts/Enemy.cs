@@ -237,19 +237,13 @@ public class Enemy : MonoBehaviour
                 isAShooter = true;
             }
 
-            if (timerBoss > 20 && timerBoss < 25)
+            if (timerBoss > 20 && timerBoss < 30)
             {
                 isAShooter = false;
-                isAChaser = true;
-            }
-
-            if (timerBoss > 25 && timerBoss < 35)
-            {
-                isAChaser = false;
                 isAnInvoker = true;
             }
 
-            if (timerBoss > 35)
+            if (timerBoss > 30)
             {
                 isAnInvoker = false;
                 isAChaser = true;

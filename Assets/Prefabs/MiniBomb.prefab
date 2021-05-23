@@ -268,6 +268,8 @@ MonoBehaviour:
   isABoss: 0
   timerBoss: 0
   finalDoor: {fileID: 0}
+  partSystemDoor: {fileID: 0}
+  bossIsDeath: 0
   healthBar: {fileID: 0}
   maxHealthBoss: 0
 --- !u!61 &4060193977581069352
@@ -283,7 +285,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0025964603, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0.46875, y: 0.375, z: 0.46875, w: 0.5625}
     pivot: {x: 0.5, y: 0.4}
@@ -294,7 +296,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.48576355, y: 0.57926494}
+  m_Size: {x: 0.4909565, y: 0.57926494}
   m_EdgeRadius: 0
 --- !u!61 &4343059132465077042
 BoxCollider2D:
@@ -309,7 +311,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0025957376, y: 0.0025972724}
   m_SpriteTilingProperty:
     border: {x: 0.46875, y: 0.375, z: 0.46875, w: 0.5625}
     pivot: {x: 0.5, y: 0.4}
@@ -320,7 +322,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.48576355, y: 0.57926494}
+  m_Size: {x: 0.52212393, y: 0.60523665}
   m_EdgeRadius: 0
 --- !u!1 &7918847286863095156
 GameObject:

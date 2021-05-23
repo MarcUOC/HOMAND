@@ -159,7 +159,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.208386, y: -0.152453}
+  m_Offset: {x: -0.20751989, y: -0.15331924}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -170,7 +170,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.3005667, y: 0.6874732}
+  m_Size: {x: 0.31962168, y: 0.7030635}
   m_EdgeRadius: 0
 --- !u!50 &3217428038180612297
 Rigidbody2D:
@@ -249,6 +249,13 @@ MonoBehaviour:
   boxCol1: {fileID: 1344351722}
   boxCol2: {fileID: 3217428038180612294}
   freezingSpikes: {fileID: 3788156391673710383}
+  isABoss: 0
+  timerBoss: 0
+  finalDoor: {fileID: 0}
+  partSystemDoor: {fileID: 0}
+  bossIsDeath: 0
+  healthBar: {fileID: 0}
+  maxHealthBoss: 0
 --- !u!95 &1836183714
 Animator:
   serializedVersion: 3

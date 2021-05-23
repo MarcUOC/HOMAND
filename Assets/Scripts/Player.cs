@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     [Header("PLAYER JUMP")]
     public float jumpForce;
     private bool doubleJump;
+    private bool jumpFalling;
     private bool isGrounded;
     public Transform groundCheck;
     public float checkRadius;
@@ -33,6 +34,8 @@ public class Player : MonoBehaviour
     public float resetHurt;
     private SpriteRenderer spriteHurt;
     public GameObject triggerBossHP;
+    public PauseMenu gamePaused;
+    public GameObject backgroundDeath;
 
     //PLAYER FIREBALL
     [Header("PLAYER FIREBALL")]    
@@ -64,6 +67,7 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         spriteHurt = GetComponent<SpriteRenderer>();
+        gamePaused = FindObjectOfType<PauseMenu>();
     }
 
     void FixedUpdate()
@@ -71,83 +75,108 @@ public class Player : MonoBehaviour
         moveInput = Input.GetAxisRaw("Horizontal");
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
 
-        playerMovement();
-        playerDirection();      
+        if (health > 0)
+        {
+            playerMovement();
+            playerDirection();
+        }   
     }
 
     private void Update()
     {
-        //JUMP
-        if (Input.GetButtonDown("Jump") && isGrounded == true)
+        if (health > 0 && !gamePaused.isPaused)
         {
-            rb.velocity = Vector2.up * jumpForce;
-            doubleJump = true;
-            soundJump.Play();
-        }
-
-        //DOUBLE JUMP
-        if (Input.GetButtonDown("Jump") && isGrounded == false && doubleJump == true)
-        {
-            rb.velocity = Vector2.up * jumpForce;
-            doubleJump = false;
-            anim.SetBool("Double Jump", true);
-            soundJump.Play();
-        }
-        else
-        {
-            anim.SetBool("Double Jump", false);
-        }
-
-        //IF PLAYER GROUNDED
-        if (!isGrounded)
-        {
-            anim.SetBool("Jump", true);
-        }
-        else
-        {
-            anim.SetBool("Jump", false);
-        }
-
-        //THROW FIRE
-        if (Input.GetButtonDown("Fire3") && timeUntilFire < Time.time)
-        {
-            Attack();
-            anim.SetBool("Attack", true);           
-        }
-        else
-        {
-            anim.SetBool("Attack", false);
-        }
-
-        //THROW ORB
-        if (Input.GetButtonDown("Fire2") && orbIsOnCooldown == false)
-        {
-            float angle = isFacingRight ? 0f : 180f;
-            Instantiate(orbPrefab, firingPoint.position, Quaternion.Euler(new Vector3(0f, 0f, angle)));
-            orbIsOnCooldown = true;            
-        }
-
-        //ORB
-        if (orbIsOnCooldown)
-        {
-            partycleOrbeReady.SetActive(false);
-            timerForOrb += Time.deltaTime;
-
-            if (timerForOrb >= cooldownForOrb)
+            //JUMP
+            if (Input.GetButtonDown("Jump") && isGrounded == true)
             {
-                timerForOrb = 0;
-                orbIsOnCooldown = false;
+                rb.velocity = Vector2.up * jumpForce;
+                doubleJump = true;
+                soundJump.Play();
             }
-            timerBar.fillAmount = timerForOrb / cooldownForOrb;
-        }
-        else
-        {
-            timerBar.fillAmount = 1;
-            partycleOrbeReady.SetActive(true);
-        }
 
-        //ORB PARTICLE
-        particleOrbPosition();
+            //DOUBLE JUMP
+            if (Input.GetButtonDown("Jump") && isGrounded == false && doubleJump == true)
+            {
+                rb.velocity = Vector2.up * jumpForce;
+                doubleJump = false;
+                anim.SetBool("Double Jump", true);
+                soundJump.Play();
+            }
+            else
+            {
+                anim.SetBool("Double Jump", false);
+            }
+
+            //JUMP FALLING
+            if (!isGrounded && !jumpFalling)
+            {
+                jumpFalling = true;
+                doubleJump = true;
+
+                if (jumpFalling)
+                {
+                    if (Input.GetButtonDown("Jump") && doubleJump == true)
+                    {
+                        rb.velocity = Vector2.up * jumpForce;
+                        doubleJump = false;
+                        anim.SetBool("Double Jump", true);
+                        soundJump.Play();
+                    }
+                }
+            }
+
+            //IF PLAYER GROUNDED
+            if (!isGrounded)
+            {
+                anim.SetBool("Jump", true);
+            }
+            else
+            {
+                anim.SetBool("Jump", false);
+                jumpFalling = false;
+            }
+
+            //THROW FIRE
+            if (Input.GetButtonDown("Fire3") && timeUntilFire < Time.time)
+            {
+                Attack();
+                anim.SetBool("Attack", true);
+            }
+            else
+            {
+                anim.SetBool("Attack", false);
+            }
+
+            //THROW ORB
+            if (Input.GetButtonDown("Fire2") && orbIsOnCooldown == false)
+            {
+                float angle = isFacingRight ? 0f : 180f;
+                Instantiate(orbPrefab, firingPoint.position, Quaternion.Euler(new Vector3(0f, 0f, angle)));
+                orbIsOnCooldown = true;
+            }
+
+            //ORB
+            if (orbIsOnCooldown)
+            {
+                partycleOrbeReady.SetActive(false);
+                timerForOrb += Time.deltaTime;
+
+                if (timerForOrb >= cooldownForOrb)
+                {
+                    timerForOrb = 0;
+                    orbIsOnCooldown = false;
+                }
+                timerBar.fillAmount = timerForOrb / cooldownForOrb;
+            }
+            else
+            {
+                timerBar.fillAmount = 1;
+                partycleOrbeReady.SetActive(true);
+            }
+
+            //ORB PARTICLE
+            particleOrbPosition();
+        }
 
         //HEARTS
         for (int i = 0; i < hearts.Length; i++)
@@ -172,14 +201,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        //DEATH ANIMATION
-        if (health <= 0)
-        {
-            Time.timeScale = 0.5f;
-            cameraView.orthographicSize = cameraView.orthographicSize - 1f * Time.deltaTime;
-            anim.SetBool("Death", true);
-        }
-
+        //HURT
         if (spriteHurt.color == new Color(255, 0, 0, 255)) //color red
         {
             resetHurt += Time.deltaTime;
@@ -190,10 +212,27 @@ public class Player : MonoBehaviour
             }
         }
 
-        //GOD MODE
-        if (Input.GetKeyDown(KeyCode.F1))
+
+        //DEATH ANIMATION
+        if (health <= 0)
         {
-            health = 8;
+            Time.timeScale = 0.75f;
+            cameraView.transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
+            cameraView.orthographicSize = cameraView.orthographicSize - 0.5f * Time.deltaTime;
+            anim.SetBool("Death", true);
+            backgroundDeath.SetActive(true);
+            spriteHurt.sortingOrder = 101;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+
+        //GOD MODE
+        if (Input.GetKeyDown(KeyCode.F9))
+        {
+            if (health <= 7)
+            {
+                health = health + 1;
+            }
+            timerForOrb = cooldownForOrb;
             for (int i = 0; i < hearts.Length; i++)
             {
                 if (i < health)
@@ -202,6 +241,11 @@ public class Player : MonoBehaviour
                     hearts[i].transform.localScale = new Vector2(1f, 1f);
                 }
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.F10))
+        {
+            health = health - 1;           
         }
     }
 
@@ -314,6 +358,6 @@ public class Player : MonoBehaviour
     void Die()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Menu");
     }
 }

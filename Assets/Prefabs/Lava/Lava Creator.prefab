@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 0679fdee0e6a37443b3c0811e20a5ac3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -109,6 +109,9 @@ MonoBehaviour:
   lava: {fileID: 3248026520259375235, guid: c85c8deddee99f84aa55fce763b55be9, type: 3}
   lavaTimer: 0
   timerBetweenLavaDrop: 1
+  spikeTimer: 0
+  spikeTimerDown: 0
+  partSystem: {fileID: 0}
 --- !u!61 &2301758842672373511
 BoxCollider2D:
   m_ObjectHideFlags: 0
