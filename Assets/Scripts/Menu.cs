@@ -4,8 +4,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
+
 public class Menu : MonoBehaviour
 {
+    public AudioSource audioHighlighted;
+    public AudioSource audioClick;
+
     //Go to game scene
     public void PlayGame() 
     {
@@ -29,5 +33,15 @@ public class Menu : MonoBehaviour
     {
         Debug.Log("QUIT GAME");
         Application.Quit();
+    }
+
+    public void SoundWhenHover()
+    {
+        audioHighlighted.Play();
+    }
+
+    public void SoundWhenClick()
+    {
+        audioClick.Play();
     }
 }

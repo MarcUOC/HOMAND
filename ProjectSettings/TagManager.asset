@@ -15,6 +15,7 @@ TagManager:
   - Music
   - Final
   - Bomb
+  - Sound Effects
   layers:
   - Default
   - TransparentFX

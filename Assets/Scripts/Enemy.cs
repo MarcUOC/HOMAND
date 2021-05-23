@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     public Transform firingPoint;
     public GameObject detectionPlayer;
     public LayerMask playerLayer;
+    public AudioSource frozenSound;
 
     [Header("SHOOTER ENEMY")]
     public bool isAShooter;
@@ -34,6 +35,7 @@ public class Enemy : MonoBehaviour
     public float flipTimer;
     public float timeForFlip;
     public float timeForResetFlip;
+    public AudioSource shooterDie;
 
     [Header("CHASER ENEMY")]
     public bool isAChaser;
@@ -44,12 +46,14 @@ public class Enemy : MonoBehaviour
     public GameObject alert;
     public Transform groundDetection;
     private bool movingRight = true;
+    public AudioSource chaserDie;
 
     [Header("INVOKER ENEMY")]
     public bool isAnInvoker;    
     public GameObject bombPrefab;
     public float invokeTimer;
     public float timeForInvoke;
+    public AudioSource invokerDie;
 
     [Header("BOMB ENEMY")]
     public bool isABomb;
@@ -70,7 +74,7 @@ public class Enemy : MonoBehaviour
     public bool bossIsDeath;
     public Image healthBar;
     public float maxHealthBoss;
-
+    public AudioSource bossDie;
 
 
     private void Start()
@@ -263,6 +267,7 @@ public class Enemy : MonoBehaviour
         {
             anim.enabled = false;
             freezingSpikes.SetActive(true);
+            
 
             frozenTime += Time.deltaTime;
             if(frozenTime >= frozenMaxTime)
@@ -284,7 +289,7 @@ public class Enemy : MonoBehaviour
             if (bossIsDeath)
             {
                 Color color = GetComponent<SpriteRenderer>().material.color;
-                color.a -= Time.deltaTime * 0.40f;
+                color.a -= Time.deltaTime * 0.30f;
                 GetComponent<SpriteRenderer>().material.color = color;
 
                 partSystemDoor.transform.position = transform.position;
@@ -335,6 +340,7 @@ public class Enemy : MonoBehaviour
                     boxCol2.enabled = false;
                     rb.constraints = RigidbodyConstraints2D.FreezeAll;
                     Destroy(alert.gameObject);
+                    chaserDie.Play();
                 }                
             }
 
@@ -351,6 +357,7 @@ public class Enemy : MonoBehaviour
                 anim.SetBool("Death", true);
                 boxCol1.enabled = false;
                 boxCol2.enabled = false;
+                shooterDie.Play();
             }
 
             if (isAnInvoker && hp <= 0 && !isABoss)
@@ -359,6 +366,7 @@ public class Enemy : MonoBehaviour
                 boxCol1.enabled = false;
                 boxCol2.enabled = false;
                 rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                invokerDie.Play();
             }
 
             if (isABomb && hp <= 0)
@@ -373,7 +381,8 @@ public class Enemy : MonoBehaviour
                 anim.SetBool("Boss Death", true);
                 boxCol1.enabled = false;
                 boxCol2.enabled = false;
-                bossIsDeath = true;      
+                bossIsDeath = true;
+                bossDie.Play();
             }
         }        
 
@@ -381,6 +390,10 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.tag.Equals("Orb"))
         {
             frozenEnemy = true;
+            if (!isABomb)
+            {
+                frozenSound.Play();
+            }
 
             if (isABomb)
             {

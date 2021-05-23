@@ -8,14 +8,18 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
     public GameObject optionsMenu;
-    public GameObject quitButton;
+    //public GameObject quitButton;
     public bool isPaused;
+    public AudioSource audioHighlighted;
+    public AudioSource audioClick;
+    public AudioSource gamePaused;
+    public AudioSource gameUnpaused;
 
     private void Start()
     {
         pauseMenu.SetActive(false);
         optionsMenu.SetActive(false);
-        quitButton.SetActive(false);
+        //quitButton.SetActive(false);
     }
 
     private void Update()
@@ -39,9 +43,10 @@ public class PauseMenu : MonoBehaviour
     public void PauseGame()
     {
         pauseMenu.SetActive(true);
-        quitButton.SetActive(true);
+        //quitButton.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
+        gamePaused.Play();
     }
 
     //Disable pause game
@@ -51,6 +56,7 @@ public class PauseMenu : MonoBehaviour
         optionsMenu.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
+        gameUnpaused.Play();
     }
 
     //Go to menu
@@ -70,5 +76,15 @@ public class PauseMenu : MonoBehaviour
     public void setFullScreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
+    }
+
+    public void SoundWhenHover()
+    {
+        audioHighlighted.Play();
+    }
+
+    public void SoundWhenClick()
+    {
+        audioClick.Play();
     }
 }

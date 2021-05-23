@@ -215,7 +215,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.013297498, y: 0.15662448}
+  m_Offset: {x: -0.013297498, y: 0.16586909}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -226,7 +226,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.49297988, y: 0.274057}
+  m_Size: {x: 0.49297988, y: 0.2925462}
   m_EdgeRadius: 0
 --- !u!50 &8627428623261645930
 Rigidbody2D:
@@ -273,6 +273,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
+  frozenSound: {fileID: 0}
   isAShooter: 0
   isGrounded: 0
   groundCheck: {fileID: 8627428623548156157}
@@ -289,21 +290,32 @@ MonoBehaviour:
   flipTimer: 0
   timeForFlip: 0
   timeForResetFlip: 0
+  shooterDie: {fileID: 0}
   isAChaser: 1
   chasetimer: 0
   timeToStartChasing: 1
   speedWhenPlayerSpotted: 3
   alert: {fileID: 3227567977572506533}
   groundDetection: {fileID: 8627428623548156157}
+  chaserDie: {fileID: 0}
   isAnInvoker: 0
   bombPrefab: {fileID: 0}
   invokeTimer: 0
   timeForInvoke: 0
+  invokerDie: {fileID: 0}
   isABomb: 0
   anim: {fileID: 0}
   boxCol1: {fileID: 6565211821849852233}
   boxCol2: {fileID: 8627428623261645925}
   freezingSpikes: {fileID: 2093076855}
+  isABoss: 0
+  timerBoss: 0
+  finalDoor: {fileID: 0}
+  partSystemDoor: {fileID: 0}
+  bossIsDeath: 0
+  healthBar: {fileID: 0}
+  maxHealthBoss: 0
+  bossDie: {fileID: 0}
 --- !u!61 &6565211821849852233
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -317,7 +329,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.009521216, y: 0.1547843}
+  m_Offset: {x: -0.009521216, y: 0.16413768}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -328,7 +340,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.49378985, y: 0.2769203}
+  m_Size: {x: 0.49378985, y: 0.29562703}
   m_EdgeRadius: 0
 --- !u!95 &1865662217
 Animator:

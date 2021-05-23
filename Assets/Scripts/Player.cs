@@ -60,6 +60,7 @@ public class Player : MonoBehaviour
     public AudioSource soundFire;
     public AudioSource soundJump;
     public AudioSource soundOrb;
+    public AudioSource soundHurt;
     public GameObject partycleOrbeReady;
 
 
@@ -286,6 +287,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.tag.Equals("Enemy") || other.gameObject.tag.Equals("Trap") || other.gameObject.tag.Equals("Rock") || other.gameObject.tag.Equals("Bomb"))
         {
             health = health - 1;
+            soundHurt.Play();
             spriteHurt.color = new Color(255, 0, 0, 255);
         }
 
