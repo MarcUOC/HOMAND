@@ -8,24 +8,24 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
     public GameObject optionsMenu;
-    //public GameObject quitButton;
     public bool isPaused;
     public AudioSource audioHighlighted;
     public AudioSource audioClick;
     public AudioSource gamePaused;
     public AudioSource gameUnpaused;
+    public Player playerHP;
 
     private void Start()
     {
         pauseMenu.SetActive(false);
         optionsMenu.SetActive(false);
-        //quitButton.SetActive(false);
+        playerHP = FindObjectOfType<Player>();
     }
 
     private void Update()
     {
         //Check if game is paused
-        if (Input.GetButtonDown("Cancel"))
+        if (Input.GetButtonDown("Cancel") && playerHP.health > 0)
         {
             if (isPaused)
             {
@@ -43,7 +43,6 @@ public class PauseMenu : MonoBehaviour
     public void PauseGame()
     {
         pauseMenu.SetActive(true);
-        //quitButton.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
         gamePaused.Play();

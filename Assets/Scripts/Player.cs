@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
     public GameObject triggerBossHP;
     public PauseMenu gamePaused;
     public GameObject backgroundDeath;
+    public BoxCollider2D boxcol;
 
     //PLAYER FIREBALL
     [Header("PLAYER FIREBALL")]    
@@ -228,6 +229,7 @@ public class Player : MonoBehaviour
             backgroundDeath.SetActive(true);
             spriteHurt.sortingOrder = 101;
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            boxcol.enabled = false;
         }
 
         //GOD MODE

@@ -190,7 +190,7 @@ public class Enemy : MonoBehaviour
             transform.Translate(Vector2.right * speed * Time.deltaTime);
             RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, 0.1f);
             alert.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.7f, this.transform.position.z);
-            Debug.DrawRay(groundDetection.position, Vector2.down, Color.white);
+            //Debug.DrawRay(groundDetection.position, Vector2.down, Color.white);
 
             if (groundInfo.collider == false)
             {

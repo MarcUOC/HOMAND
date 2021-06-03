@@ -34,6 +34,6 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(pointA.position, pointB.position);
+        //Gizmos.DrawLine(pointA.position, pointB.position);
     }
 }

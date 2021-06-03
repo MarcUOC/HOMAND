@@ -4985,6 +4985,7 @@ MonoBehaviour:
   triggerBossHP: {fileID: 0}
   gamePaused: {fileID: 0}
   backgroundDeath: {fileID: 0}
+  boxcol: {fileID: 2275102924914308417}
   timeBetweenFireBall: 0.5
   firingPoint: {fileID: 2275102923506902680}
   fireballPrefab: {fileID: 4501917264518558830, guid: e5bd3437cb35e9e4a8cdd87ea0a9f652,
@@ -5001,6 +5002,8 @@ MonoBehaviour:
   knockFromRight: 0
   soundFire: {fileID: 0}
   soundJump: {fileID: 0}
+  soundOrb: {fileID: 0}
+  soundHurt: {fileID: 0}
   partycleOrbeReady: {fileID: 1899768804}
 --- !u!95 &1152737602
 Animator:
