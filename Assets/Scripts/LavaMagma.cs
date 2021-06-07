@@ -7,14 +7,12 @@ public class LavaMagma : MonoBehaviour
     private Animator anim;
     private BoxCollider2D boxcol;
 
-    // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
         boxcol = GetComponent<BoxCollider2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -24,7 +22,6 @@ public class LavaMagma : MonoBehaviour
     {
         boxcol.enabled = false;
         anim.SetBool("LavaMagma Collision", true);
-
     }
 
     void OnTriggerEnter2D(Collider2D other)

@@ -14,7 +14,6 @@ public class Trap : MonoBehaviour
     public LayerMask playerLayer;
     public Transform lavaCreator;
     public GameObject lava;
-
     public float lavaTimer;
     public float timerBetweenLavaDrop;
     public float spikeTimer;
@@ -22,7 +21,6 @@ public class Trap : MonoBehaviour
     public GameObject partSystem;
         
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -33,14 +31,13 @@ public class Trap : MonoBehaviour
         canSeePlayer = Physics2D.OverlapBox(detectionPlayer.transform.position, lineOfSite, 0, playerLayer);
     }
 
-    // Update is called once per frame
     void Update()
     {
         lavaTimer += Time.deltaTime;
 
-        if (isASpikeTrap)
+        if (isASpikeTrap) //SPIKE
         {
-            if (canSeePlayer)
+            if (canSeePlayer) //WHEN SPIKE CAN SEE PLAYER
             {
                 spikeTimer += Time.deltaTime;
                 partSystem.SetActive(true);
@@ -57,7 +54,7 @@ public class Trap : MonoBehaviour
             }
         }
 
-        if (isAFireTrap)
+        if (isAFireTrap) //WHEN IS A LAVA CREATOR
         {
             if(lavaTimer >= timerBetweenLavaDrop)
             {
@@ -68,7 +65,7 @@ public class Trap : MonoBehaviour
         }
     }
 
-
+    //KNOCKBACK PLAYER
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.name == "Player")
@@ -84,6 +81,7 @@ public class Trap : MonoBehaviour
         }
     }
 
+    //DESTROY SPIKE TRAP
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (gameObject.name == "Spike_Trap")

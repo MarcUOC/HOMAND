@@ -16,17 +16,15 @@ public class FallingPlatform : MonoBehaviour
     
     public Vector3 startPos;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         startPos = transform.position;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (isTriggered)
+        if (isTriggered) //WHEN PLAYER IS IN THE PLATFORM
         {
             timerForFalling += Time.deltaTime;
             particleSys.SetActive(true);
@@ -42,7 +40,7 @@ public class FallingPlatform : MonoBehaviour
             particleSys.SetActive(false);
         }
 
-        if (rb.gravityScale >= 0.5f)
+        if (rb.gravityScale >= 0.5f) //FALLING PLATFORM
         {
             timerForReset += Time.deltaTime;
 
@@ -52,7 +50,7 @@ public class FallingPlatform : MonoBehaviour
                 boxCol2.enabled = false;
             }
 
-            if (timerForReset >= timerMaxForReset)
+            if (timerForReset >= timerMaxForReset) //RESET PLATFORM POSITION
             {                
                 transform.position = startPos;
                 rb.gravityScale = 0;
@@ -67,7 +65,7 @@ public class FallingPlatform : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag.Equals("Player"))
+        if (collision.gameObject.tag.Equals("Player")) //ACTIVE TIMER FOR FALLING
         {
             isTriggered = true;
         }
@@ -75,7 +73,7 @@ public class FallingPlatform : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag.Equals("Player"))
+        if (collision.gameObject.tag.Equals("Player")) //DEACTIVE TIMER FOR FALLING
         {
             isTriggered = false;
         }        

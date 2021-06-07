@@ -13,6 +13,6 @@ public class DontDestroyMusic : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(this.gameObject); //Don't destroy music
     }
 }

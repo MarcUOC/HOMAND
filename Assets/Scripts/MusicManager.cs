@@ -25,17 +25,17 @@ public class MusicManager : MonoBehaviour
     public AudioSource ASSEPauseGame;
     public AudioSource ASSEUnpauseGame;
 
-    // Start is called before the first frame update
     void Start()
     {
         objectMusic = GameObject.FindWithTag("Music");
         audioSourceMusic = objectMusic.GetComponent<AudioSource>();
 
+        //PLAYERPREFS GETFLOAT
         audioSourceMusic.volume = musicVolume;
         musicVolume = PlayerPrefs.GetFloat("volume");
         soundEffectsVolume = PlayerPrefs.GetFloat("volumeSoundEffects");
 
-        
+        //ASSIGN VOLUME TO SLIDERS
         volumeSlider.value = musicVolume;
         volumeSliderSoundEffects.value = soundEffectsVolume;
 
@@ -44,6 +44,7 @@ public class MusicManager : MonoBehaviour
 
     void Update()
     {
+        //PLAYERPREFS SETFLOAT
         audioSourceMusic.volume = musicVolume;        
         PlayerPrefs.SetFloat("volume", musicVolume);
         PlayerPrefs.SetFloat("volumeSoundEffects", soundEffectsVolume);
@@ -53,14 +54,15 @@ public class MusicManager : MonoBehaviour
 
     public void volumeUpdater(float volume)
     {
-        musicVolume = volume;
+        musicVolume = volume; //ASSIGN VARIABLES
     }
 
     public void soundEffectsUpdate(float volumeSoundEffects)
     {
-        soundEffectsVolume = volumeSoundEffects;
+        soundEffectsVolume = volumeSoundEffects; //ASSIGN VARIABLES
     }
 
+    //ALL SOUND EFFECTS AND MUSIC
     void SEVolume()
     {
         ASSEMouseOver.volume = soundEffectsVolume;

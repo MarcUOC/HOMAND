@@ -10,24 +10,25 @@ public class MovingPlatform : MonoBehaviour
     public Transform startPoint;
     Vector3 nextPoint;
 
-    // Start is called before the first frame update
     void Start()
     {
         nextPoint = startPoint.position;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        //TRANSFORM POSITION OF THE PLATFORM POINT A
         if (transform.position == pointA.position)
         {
             nextPoint = pointB.position;
         }
+        //TRANSFORM POSITION OF THE PLATFORM POINT B
         if (transform.position == pointB.position)
         {
             nextPoint = pointA.position;
         }
 
+        //MOVE PLATFORM
         transform.position = Vector3.MoveTowards(transform.position, nextPoint, speed * Time.deltaTime);
     }
 

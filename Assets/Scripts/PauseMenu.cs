@@ -13,7 +13,7 @@ public class PauseMenu : MonoBehaviour
     public AudioSource audioClick;
     public AudioSource gamePaused;
     public AudioSource gameUnpaused;
-    public Player playerHP;
+    private Player playerHP;
 
     private void Start()
     {
@@ -24,8 +24,8 @@ public class PauseMenu : MonoBehaviour
 
     private void Update()
     {
-        //Check if game is paused
-        if (Input.GetButtonDown("Cancel") && playerHP.health > 0)
+        //CHECK GAME PAUSED
+        if ((Input.GetButtonDown("Cancel") || (Input.GetKeyDown(KeyCode.Escape))) && playerHP.health > 0) //PAUSE GAME
         {
             if (isPaused)
             {
@@ -39,7 +39,7 @@ public class PauseMenu : MonoBehaviour
     }
 
 
-    //Enable pause game
+    //ENABLE PAUSE GAME
     public void PauseGame()
     {
         pauseMenu.SetActive(true);
@@ -48,7 +48,7 @@ public class PauseMenu : MonoBehaviour
         gamePaused.Play();
     }
 
-    //Disable pause game
+    //DISABLE PAUSE GAME
     public void ResumeGame()
     {
         pauseMenu.SetActive(false);
@@ -58,30 +58,33 @@ public class PauseMenu : MonoBehaviour
         gameUnpaused.Play();
     }
 
-    //Go to menu
+    //MENU
     public void Menu()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("Menu");
     }
 
-    //Exit game
+    //EXIT GAME
     public void Quit()
     {
         Debug.Log("QUIT");
         Application.Quit();
     }
 
+    //FULL SCREEN MODE
     public void setFullScreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
     }
 
+    //SOUND WHEN MOUSE OVER
     public void SoundWhenHover()
     {
         audioHighlighted.Play();
     }
 
+    //SOUND WHEN CLICK BUTTON
     public void SoundWhenClick()
     {
         audioClick.Play();

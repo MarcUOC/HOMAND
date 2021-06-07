@@ -7,20 +7,14 @@ public class Rock : MonoBehaviour
     public float rockSpeed;
     public Rigidbody2D rb;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
+        //POISON BALL SPEED
         rb.velocity = transform.right * rockSpeed;
         Destroy(gameObject, 4);
     }
 
-
+    //KNOCKBACK PLAYER
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.name == "Player")

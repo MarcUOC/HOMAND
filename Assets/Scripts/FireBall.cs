@@ -15,10 +15,11 @@ public class FireBall : MonoBehaviour
 
     private void Update()
     {
-        rb.velocity = transform.right * FireBallSpeed;
+        rb.velocity = transform.right * FireBallSpeed; //FIREBALL MOVEMENT
         Destroy(gameObject, 3);
     }
 
+    //WHEN FIREBALL COLLISION WITH ANYTHING
     private void OnCollisionEnter2D(Collision2D collision)
     {
         anim.SetBool("Destroy FireBall", true);
@@ -26,7 +27,7 @@ public class FireBall : MonoBehaviour
         FireBallSpeed = 0;
     }
 
-    //Call in the animator Destroy FireBall.
+    //CALLED IN THE ANIMATOR
     private void Destroy()
     {
         Destroy(gameObject);

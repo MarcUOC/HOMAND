@@ -161,7 +161,7 @@ public class Player : MonoBehaviour
             }
 
 
-            //ORB
+            //ORB IS ON COOLDOWN
             if (orbIsOnCooldown)
             {
                 partycleOrbeReady.SetActive(false);
@@ -233,30 +233,34 @@ public class Player : MonoBehaviour
         }
 
         //GOD MODE
-        if (Input.GetKeyDown(KeyCode.F9))
+        /*if (Input.GetKeyDown(KeyCode.F9))
         {
             if (health <= 7)
             {
                 health = health + 1;
             }
-            timerForOrb = cooldownForOrb;
+
             for (int i = 0; i < hearts.Length; i++)
             {
-                if (i < health)
+                hearts[i].sprite = fullHeart;
+                hearts[i].transform.localScale = new Vector2(1f, 1f);
+                
+                if (i < numOfHearts)
                 {
-                    hearts[i].sprite = fullHeart;
-                    hearts[i].transform.localScale = new Vector2(1f, 1f);
+                    hearts[i].enabled = true;
                 }
             }
         }
-
         if (Input.GetKeyDown(KeyCode.F10))
         {
-            health = health - 1;           
-        }
+            if (health >= 1)
+            {
+                health = health - 1;
+            }
+        }*/
     }
 
-    //DEAD
+    //PLAYER COLLISION
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag.Equals("MovingPlatform"))
@@ -270,20 +274,16 @@ public class Player : MonoBehaviour
         }
     }
 
+    //COLLISION FOR MOVING PLATFORM
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.tag.Equals("MovingPlatform"))
         {
             transform.parent = null;
         }
-
-        /*if (collision.gameObject.tag.Equals("Enemy") || collision.gameObject.tag.Equals("Trap") || collision.gameObject.tag.Equals("Rock") || collision.gameObject.tag.Equals("Bomb"))
-        {
-            health = health - 1;
-            spriteHurt.color = new Color(255, 0, 0, 255);
-        }*/
     }
 
+    //PLAYER LOSS HP
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag.Equals("Enemy") || other.gameObject.tag.Equals("Trap") || other.gameObject.tag.Equals("Rock") || other.gameObject.tag.Equals("Bomb"))
@@ -299,6 +299,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    //ORB PARTYCLE SYSTEM
     void particleOrbPosition()
     {
         partycleOrbeReady.transform.position = new Vector3(transform.position.x, transform.position.y + 0.10f, transform.position.z);
@@ -306,18 +307,16 @@ public class Player : MonoBehaviour
 
     void playerDirection()
     {
-        //Player direction
+        //PLAYER DIRECTION
         if (moveInput > 0)
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
             isFacingRight = true;
-            //partycleOrbeReady.transform.position = new Vector3(transform.position.x + 0.20f, transform.position.y, transform.position.z);
         }
         else if (moveInput < 0)
         {
             transform.eulerAngles = new Vector3(0, -180, 0);
             isFacingRight = false;
-            //partycleOrbeReady.transform.position = new Vector3(transform.position.x - 0.20f, transform.position.y, transform.position.z);
         }
 
         if (moveInput == 0)
@@ -332,7 +331,7 @@ public class Player : MonoBehaviour
 
     void playerMovement()
     {
-        //Player movement and knockback
+        //PLAYER MOVEMENT AND KNOCKBACK
         if (knockbackCount <= 0)
         {
             rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
@@ -354,6 +353,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    //PLAYER ATTACK FIREBALL
     void Attack()
     {
         float angle = isFacingRight ? 0f : 180f;
@@ -362,7 +362,7 @@ public class Player : MonoBehaviour
         soundFire.Play();
     }
 
-    //Call in the animator
+    //CALLED IN THE ANIMATOR
     void Die()
     {
         Time.timeScale = 1f;

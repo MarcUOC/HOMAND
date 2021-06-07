@@ -8,7 +8,7 @@ public class Orb : MonoBehaviour
 
     private void Update()
     {
-        //direction orb
+        //ORB SPEED
         rb.velocity = transform.right * orbSpeed;        
         Destroy(gameObject, 4);
     }
@@ -16,6 +16,7 @@ public class Orb : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //CHECK COLLISIONS
         if (collision.gameObject.tag.Equals("Untagged") || collision.gameObject.tag.Equals("Enemy") || collision.gameObject.tag.Equals("Wall") || collision.gameObject.tag.Equals("Bomb") || collision.gameObject.tag.Equals("Trap"))
         {
             Destroy(gameObject);
